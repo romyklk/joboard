@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Mon compte
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-2 bg-dark text-white">
+				{% include 'partials/_sidebar.html.twig' %}
+			</div>
+			<div class="col-10 bg-custom-account">
+				{% block content %}
+
+					{% if app.user %}
+						{% set user = app.user.userProfil %}
+
+						<div class="container mt-5">
+							<h1 class="mb-4 text-center">
+								Poste recherché:
+								<span class="badge bg-secondary">{{ user.jobSought }}</span>
+							</h1>
+							<div class="card card-text">
+								<div class="card-body d-flex justify-content-between">
+
+									<div class="col-md-4">
+										<img src="{{ asset('uploads/'~ user.picture ) }}" alt="Photo de profil" class="img-fluid rounded shadow-lg">
+									</div>
+
+									<div class="col-md-4">
+										<h4 class="card-title">
+											{{ user.firstName }}
+											{{ user.lastName }}
+										</h4>
+										<strong></strong>
+										<details>
+											<summary>Adresse:</summary>
+											{{ user.address }}
+											{{ user.city }}
+											{{ user.zipCode }}
+											{{ user.country }}
+										</details>
+										<strong>Tel:</strong>
+										{{ user.phoneNumber }}
+										<br>
+										<strong>Site web:</strong>
+										<a href="{{ user.website }}" target="_blank" class="text-decoration-none">Mon portfolio</a>
+										<br>
+										<p>
+											{% if(user.availability == 1) %}
+												<span class="badge bg-success">Disponible</span>
+											{% else %}
+												<span class="badge bg-danger">Indisponible</span>
+											{% endif %}
+										</p>
+									</div>
+
+								</div>
+								<div class="card-body">
+									<strong class="fs-5">Qui suis-je ?:</strong>
+									<p class="card-text mt-3">{{ user.presentation }}</p>
+
+									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+										<a href="{{path('app_user_profil_edit',{'id':user.id})}}" class="btn btn-warning mt-3">
+											<i class="bi bi-pencil-square"></i>
+										</a>
+										<a href="{{path('app_user_profil_delete',{'id':user.id})}}" class="btn btn-danger mt-3">
+											<i class="bi bi-trash"></i>
+										</a>
+									</div>
+
+								</div>
+
+
+							</div>
+						</div>
+
+
+					{% endif %}
+				{% endblock %}
+			</div>
+		</p>
+	</div>
+{% endblock %}

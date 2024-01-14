@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<h1>
+			Demande de confirmation de compte
+		</h1>
+
+		<p style="font-size: 1.2rem; margin-bottom: 2rem;font-weight: bold;">
+			Bonjour {{ user }}!
+
+		</p>
+		<p>
+			Veuillez confirmer votre compte en cliquant sur le lien ci-dessous:
+			<br><br>
+			<a href="{{ signedUrl|raw }}" 
+                target="_blank" style="background-color: #4CAF50; border: none; color: white; padding: 15px 32px;text-decoration: none;display: inline-block;font-size: 16px;border-radius: 12px;">Confirmer votre email</a>.<br>
+				Ce lien expirera le
+			{{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+		</p>
+
+		<p>
+			Si vous n'avez pas créé de compte, aucune autre action n'est requise.
+		</p>
+
+        <p>
+            Cordialement,<br>
+<span style="margin: 0 0 0 20px; font-style: italic;">L'équipe Sym Job Board Project</span>
+
+        </p>
+
+
+	</body>
+</html>

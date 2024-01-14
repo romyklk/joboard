@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	- Connexion
+{% endblock %}
+
+{% block body %}
+	<div style="background-color: #040519">
+
+
+		<div class="row justify-content-center align-items-center vh-100">
+			<div class="col-md-6 shadow-lg border border-white p-3 rounded">
+
+				<form method="post">
+					{% if error %}
+						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+					{% endif %}
+
+					<h1 class="h3 mb-3 font-weight-normal text-center text-light">
+						Connexion
+					</h1>
+
+
+					<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mb-4" autocomplete="email" required autofocus placeholder="Entrez votre email">
+
+
+					<input type="password" name="password" id="inputPassword" class="form-control mb-4" autocomplete="current-password" required placeholder="Entrez votre mot de passe">
+
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+					<button class="btn btn-lg btn-primary mt-3" type="submit">
+						Se Connecter
+					</button>
+				</form>
+			</div>
+		</div>
+
+
+	</div>
+
+{% endblock %}

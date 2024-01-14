@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Tags
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-2 bg-dark text-white">
+				{% include 'partials/_sidebar.html.twig' %}
+			</div>
+			<div class="col-10 bg-custom-account">
+				{% block content %}
+					<div class="row">
+						<div class="col-12">
+							<h1 class="text-center">
+								Les tags disponibles.
+							</h1>
+							<p class="text-center lead">
+								Vous pouvez ajouter un tag afin d'enrichir le contenu de votre offre d'emploi.
+							</p>
+						</div>
+
+						<div class="col-12">
+							<div class="d-flex align-items-center justify-content-center" style="height: 30vh;">
+								<div class="bg-white p-5 rounded shadow">
+									{{ form_start(form) }}
+									{{ form_widget(form) }}
+									<div class="text-center">
+										<input type="submit" class="btn btn-primary" value="Ajouter"/>
+									</div>
+									{{ form_end(form) }}
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-10 mx-auto">
+							<h4 class="text-center fw-bold">
+								Liste des tags disponibles.
+							</h4>
+							{% if tags|length <= 0 %}
+								<p class="text-center">
+									Aucun tag n'est disponible pour le moment.
+								</p>
+							{% else %}
+								{% for tag in tags %}
+									<span class="badge bg-success rounded-pill">
+										<i class="bi bi-tag-fill"></i>
+										<span class="px-1">{{tag.name|upper}}</span>
+									</span>
+								{% endfor %}
+
+							{% endif %}
+
+
+						</div>
+					</div>
+
+				{% endblock %}
+			</div>
+
+		</div>
+	{% endblock %}

@@ -1,0 +1,69 @@
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-custom" style="width: 280px;height: 100vh;">
+	<a href="{{path('app_account')}}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+		<span class="fs-4">Mon Compte</span>
+	</a>
+	<ul class="nav nav-pills flex-column mb-auto">
+
+		{% if is_granted('ROLE_PRO') %}
+			{#  Si l'utilisateur n'a pas de profil, on lui propose de créer un profil #}
+			{% if app.user.entrepriseProfil is null %}
+				<li class="nav-item">
+					<a href="{{path('app_entreprise_profil')}}" class="nav-link text-white fw-bold">
+						<i class="bi bi-person-circle account-icone"></i>
+						Ma société
+					</a>
+				</li>
+			{% else %}
+				<li class="nav-item">
+					<a href="{{path('app_entreprise_profil_show',{'id':app.user.entrepriseProfil.id})}}" class="nav-link text-white fw-bold">
+						<i class="bi bi-info-circle account-icone"></i>
+						Mes informations
+					</a>
+				</li>
+				<li>
+					<a href="{{path('app_offer')}}" class="nav-link text-white fw-bold">
+						<i class="bi bi-briefcase account-icone"></i>
+						Offres
+					</a>
+				</li>
+				<li>
+					<a href="{{path('app_tag_add')}}" class="nav-link text-white fw-bold">
+						<i class="bi bi-bookmark-check account-icone"></i>
+						Les mots clés
+					</a>
+				</li>
+
+
+			{% endif %}
+
+		{% else %}
+
+			{#  Si l'utilisateur n'a pas de profil, on lui propose de créer un profil #}
+			{% if app.user.userProfil is null %}
+				<li class="nav-item">
+					<a href="{{path('app_user_profil')}}" class="nav-link text-white fw-bold">
+						<i class="bi bi-person-circle account-icone"></i>
+						Créer Profil
+					</a>
+				</li>
+			{% else %}
+				<li class="nav-item">
+					<a href="{{path('app_user_profil_show',{'id':app.user.userProfil.id})}}" class="nav-link text-white fw-bold">
+						<i class="bi bi-info-circle account-icone"></i>
+						Profil & Reglages
+					</a>
+				</li>
+				<li>
+					<a href="#" class="nav-link text-white fw-bold">
+						<i class="bi bi-patch-check account-icone"></i>
+						Mes Candidatures
+					</a>
+				</li>
+
+			{% endif %}
+
+
+		{% endif %}
+
+	</ul>
+</div>

@@ -1,3 +1,46 @@
 body {
-    background-color: skyblue;
+    /*  background-color: #e7eaf9; */
+    font-family: 'Roboto', 'Fira Sans';
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Roboto';
+}
+
+p,
+a,
+span {
+    font-family: 'Fira Sans';
+}
+
+.message {
+    font-family: 'Fira Sans';
+    font-size: 2.4rem;
+    font-weight: 500;
+    color: #e5e9f8;
+}
+
+.setting-img {
+    height: 500px;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.account-icone {
+    color : #e7eaf9;
+    font-size: 1.5rem;
+    padding: 0 0.5rem;
+}
+
+.bg-custom {
+    background-color: #040519;
+}
+
+.bg-custom-account {
+    background-color: #e7eaf9;
 }

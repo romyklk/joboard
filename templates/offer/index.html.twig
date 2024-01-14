@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Mon compte
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-2 bg-dark text-white">
+				{% include 'partials/_sidebar.html.twig' %}
+			</div>
+			<div class="col-10 bg-custom-account">
+				{% block content %}
+					<div class="d-grid gap-2 d-md-flex justify-content-md-start">
+						<a href="{{path('app_offer_new')}}" class="btn btn-primary me-md-2">
+							<i class="bi bi-plus-circle"></i>
+							Ajouter
+						</a>
+					</div>
+					<hr>
+					<h2 class="text-center">Liste de nos offres</h2>
+
+					{% if offers|length == 0 %}
+						<div class="alert alert-info">
+							Aucune offre n'a été trouvée.
+						</div>
+					{% else %}
+						<div class="table-responsive">
+							<table class="table table-striped table-hover">
+								<thead>
+									<tr>
+										<th>Titre</th>
+										<th>Contrat</th>
+										<th>Salaire</th>
+										<th>Localisation</th>
+										<th>Publiée le</th>
+										<th>Gerer</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									{% for offer in offers %}
+										<tr>
+											<td>{{ offer.title }}</td>
+											<td>{{ offer.contractType.name }}</td>
+											<td>{{ offer.salary }}</td>
+											<td>{{ offer.location}}</td>
+											<td>{{ offer.createdAt|date('d/m/Y') }}</td>
+											{% if offer.isActive %}
+												<td>
+													<a href="" class="btn btn-primary">
+														<i class="bi bi-eye"></i>
+													</a>
+													<a href="" class="btn btn-warning">
+														<i class="bi bi-pencil-square"></i>
+													</a>
+												</td>
+
+											{% else %}
+												<td class="text-danger">
+													Désactivée
+													<a href="" class="btn btn-danger">
+														<i class="bi bi-trash"></i>
+													</a>
+
+												</td>
+											{% endif %}
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					{% endif %}
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

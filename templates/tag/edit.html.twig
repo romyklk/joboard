@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}- Ajouter un mot clé
+{% endblock %}
+
+
+{% block body %}
+	<div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+		<div class="bg-white p-5 rounded shadow">
+			<h1 class="text-center mb-4">
+                Modifier un mot clé
+            </h1>
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+			<div class="text-center">
+				<input type="submit" class="btn btn-warning" value="Modifier"/>
+			</div>
+			{{ form_end(form) }}
+			<p class="text-center mt-3">
+				<a href="{{path('app_account')}}" class="btn btn-secondary"
+                >Retour à la liste</a>
+			</p>
+		</div>
+	</div>
+
+{% endblock %}
+

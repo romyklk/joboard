@@ -1,0 +1,18 @@
+{# Messages de succès #}
+{% for flashSuccess in app.session.flashbag.get('success') %}
+	<div class="col-md-6 offset-md-3">
+		<div class="alert alert-success">
+			{{ flashSuccess }}
+		</div>
+	</div>
+{% endfor %}
+
+{# Messages d'erreur #}
+{% for flashError in app.session.flashbag.get('error') %}
+	<div class="col-md-6 offset-md-3">
+		<div class="alert alert-danger">
+			{{ flashError }}
+		</div>
+	</div>
+{% endfor %}
+

@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Mon compte
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-2 bg-dark text-white">
+				{% include 'partials/_sidebar.html.twig' %}
+			</div>
+			<div class="col-10 bg-custom-account">
+				{% block content %}
+					<div class="row">
+						<div class="col-12">
+							<h1 class="text-center">
+								Création de mon profil candidat
+							</h1>
+						</div>
+
+						<class="col-12">
+							{{ form_start(form) }}
+
+							<div class="row g-3">
+								<div class="col">
+									{{ form_row(form.firstName) }}
+								</div>
+								<div class="col">
+									{{ form_row(form.lastName) }}
+								</div>
+							</div>
+
+							<div class="row g-3">
+								<div class="col">{{ form_row(form.phoneNumber) }}</div>
+								<div class="col">{{ form_row(form.address) }}</div>
+							</div>
+
+							<div class="row g-3">
+
+								<div class="col">{{ form_row(form.city) }}</div>
+
+								<div class="col">{{ form_row(form.zipCode) }}</div>
+
+								<div class="col">{{ form_row(form.country) }}</div>
+							</div>
+
+							<div class="row g-3">
+								<div class="col">{{ form_row(form.jobSought)}}</div>
+								<div class="col">{{ form_row(form.website) }}</div>
+							</div>
+
+							{{ form_row(form.availability) }}
+							{{ form_row(form.presentation) }}
+							{{ form_row(form.imageFile) }}
+
+							<button class="btn btn-warning"> Modifier
+                            </button>
+							{{ form_end(form) }}
+						</div>
+					</div>
+				{% endblock %}
+			</div>
+
+		</div>
+	{% endblock %}
+
