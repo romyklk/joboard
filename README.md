@@ -193,4 +193,11 @@ Dans cette partie, nous allons créer la partie back-end du site web.
         `symfony console make:admin:crud` 
 
 
-        
+##### JE SUIS ICI #####
+## Partie 5
+
+- [x] Dans un premier temps, nous allons afficher les offres d'emploi sur la page d'accueil.
+    - Création de la route `/offre-emploi` qui affiche la liste des offres d'emploi sur la page d'accueil.
+    - Création de la route `/offre-emploi/{id}` qui affiche le détail d'une offre d'emploi.
+    - Permettre à l'utilisateur de postuler à une offre d'emploi.
+  

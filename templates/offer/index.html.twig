@@ -45,7 +45,7 @@
 										<tr>
 											<td>{{ offer.title }}</td>
 											<td>{{ offer.contractType.name }}</td>
-											<td>{{ offer.salary }}</td>
+											<td>{{ offer.salary }} €</td>
 											<td>{{ offer.location}}</td>
 											<td>{{ offer.createdAt|date('d/m/Y') }}</td>
 											{% if offer.isActive %}
@@ -56,6 +56,9 @@
 													<a href="" class="btn btn-warning">
 														<i class="bi bi-pencil-square"></i>
 													</a>
+													<a href="" class="btn btn-danger">
+														<i class="bi bi-trash"></i>
+													</a>
 												</td>
 
 											{% else %}
@@ -64,7 +67,6 @@
 													<a href="" class="btn btn-danger">
 														<i class="bi bi-trash"></i>
 													</a>
-
 												</td>
 											{% endif %}
 										</tr>
