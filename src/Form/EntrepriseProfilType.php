@@ -33,7 +33,8 @@ class EntrepriseProfilType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Entrez la description de votre entreprise',
                     'rows' => 10
-                ]
+                ],
+                'required' => false,
             ])
             ->add('logoEntreprise',FileType::class,[
                 'label' => false,

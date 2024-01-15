@@ -29,7 +29,7 @@ class OfferType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'rows' => 5,
-                    'placeholder' => 'Entrez une courte description de l\'offre',
+                    'placeholder' => 'Entrez une courte description de l\'offre'
                 ],
             ])
             ->add('content', TextareaType::class, [
@@ -37,7 +37,9 @@ class OfferType extends AbstractType
                 'attr' => [
                     'rows' => 10,
                     'placeholder' => 'Entrez le contenu de l\'offre, toutes les informations utiles pour les candidats',
+                    'id' => 'content'
                 ],
+                'required' => false,// A cause de l'éditeur CKEditor
             ])
             ->add('salary',MoneyType::class,[
                 'label' => false,
@@ -57,10 +59,13 @@ class OfferType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('tags', EntityType::class, [
-                'label' => false,
+                'label' => 'Mot-clés',
                 'class' => Tag::class,
                 'choice_label' => 'name',
                 'multiple' => true,
+                'attr' => [
+                    'class' => 'select2'
+                ],
             ]);
     }
 

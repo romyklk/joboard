@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\OfferRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\OfferRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: OfferRepository::class)]
 class Offer
 {
@@ -66,8 +68,35 @@ class Offer
     public function __construct()
     {
         $this->tags = new ArrayCollection();
-        $this->createdAt = new \DateTimeImmutable();
-        $this->isActive = true;
+        //$this->createdAt = new \DateTimeImmutable();
+        //$this->isActive = true;
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function initalizeSlug()
+    {
+        if(!$this->slug) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->title);
+        }
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function initializeIsActive()
+    {
+        if(!$this->isActive) {
+            $this->isActive = true;
+        }
+    }
+
+    #[ORM\PrePersist]
+    public function initializeCreatedAt()
+    {
+        if(!$this->createdAt) {
+            $this->createdAt = new \DateTimeImmutable();
+        }
     }
 
     public function getId(): ?int

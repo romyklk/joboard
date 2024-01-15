@@ -41,11 +41,14 @@
 								</thead>
 								<tbody>
 
+
 									{% for offer in offers %}
+									
 										<tr>
 											<td>{{ offer.title }}</td>
 											<td>{{ offer.contractType.name }}</td>
-											<td>{{ offer.salary }} €</td>
+											<td>{{ offer.salary }}
+												€</td>
 											<td>{{ offer.location}}</td>
 											<td>{{ offer.createdAt|date('d/m/Y') }}</td>
 											{% if offer.isActive %}

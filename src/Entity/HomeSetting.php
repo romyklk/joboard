@@ -6,6 +6,7 @@ use App\Repository\HomeSettingRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: HomeSettingRepository::class)]
 class HomeSetting
 {
@@ -26,12 +27,12 @@ class HomeSetting
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    public function __construct()
+    #[ORM\PrePersist]
+    public function prePersist(): void
     {
         $this->createdAt = new \DateTimeImmutable();
     }
-
-
+    
     public function getId(): ?int
     {
         return $this->id;

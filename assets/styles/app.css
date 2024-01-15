@@ -32,7 +32,7 @@ span {
 }
 
 .account-icone {
-    color : #e7eaf9;
+    color: #e7eaf9;
     font-size: 1.5rem;
     padding: 0 0.5rem;
 }
@@ -43,4 +43,32 @@ span {
 
 .bg-custom-account {
     background-color: #e7eaf9;
+}
+
+
+/* CK Editor */
+.ck-editor__editable_inline {
+    min-height: 250px;
+}
+
+/* Jumbotron page offres */
+.jumbotron {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    background: #7474BF;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #348AC7, #7474BF);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #348AC7, #7474BF);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+
+
+.jumbotron .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

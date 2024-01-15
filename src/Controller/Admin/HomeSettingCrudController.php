@@ -30,7 +30,8 @@ class HomeSettingCrudController extends AbstractCrudController
             ImageField::new('image', 'Image de fond')
                         ->setUploadDir('public/uploads')
                         ->setBasePath('uploads/')
-                        ->setUploadedFileNamePattern('[randomhash].[extension]'),
+                        ->setUploadedFileNamePattern('[randomhash].[extension]')
+                        ->setRequired(false), //
             
             DateTimeField::new('createdAt','Date de création')->setFormat('dd-MM-yyyy HH:mm:ss')->hideOnForm(),
 

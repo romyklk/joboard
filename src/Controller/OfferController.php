@@ -30,8 +30,8 @@ class OfferController extends AbstractController
         }
 
         // Récupération des offres de l'entreprise connectée
+        $offers = $offerRepository->findByEntreprise($company);
 
-        $offers = $offerRepository->findBy(['id' => $company->getId()]);
 
         return $this->render('offer/index.html.twig', [
             'offers' => $offers,
@@ -54,11 +54,11 @@ class OfferController extends AbstractController
         $form = $this->createForm(OfferType::class, $offer);
 
         $form->handleRequest($request);
-        $slugify = new Slugify();
+        //$slugify = new Slugify();
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $offer->setSlug($slugify->slugify($offer->getTitle()));
+            //$offer->setSlug($slugify->slugify($offer->getTitle()));
             $offer->setEntreprise($company);
 
             $em->persist($offer);
@@ -74,7 +74,7 @@ class OfferController extends AbstractController
         ]);
     }
 
-    // Suppression de toutes les offres
+    /*   // Suppression de toutes les offres
     #[Route('/offer/delete', name: 'app_offer_delete')]
     public function deleteAll(EntityManagerInterface $em): Response
     {
@@ -89,5 +89,7 @@ class OfferController extends AbstractController
 
         $this->addFlash('success', 'Toutes vos offres ont été supprimées avec succès');
         return $this->redirectToRoute('app_offer');
-    }
+    } */
+
+
 }

@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\TagRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TagRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+#[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['name'], message: 'Ce tag existe déjà.')]
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag
@@ -32,6 +34,18 @@ class Tag
     public function __construct()
     {
         $this->offers = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        $this->slug = (new Slugify())->slugify($this->name);
+    }
+
+    #[ORM\PreUpdate]
+    public function preUpdate(): void
+    {
+        $this->slug = (new Slugify())->slugify($this->name);
     }
 
     public function getId(): ?int

@@ -12,15 +12,6 @@ Dans ce projet, nous allons développer le site fonctionnalité par fonctionnali
 - [x] Les offres doivent être publiques par ordre décroissant de date de publication.
 - [x] Les utilisateurs peuvent filtrer les offres par catégorie et par type de contrat.
 - [x] L'administrateur peut créer des catégories et des types de contrat.Il peut également supprimer des offres d'emploi et desactivé des utilisateurs et des entreprises. 
-## Entités
-- [x] User
-  - id (int)
-  - status (string)=>(user,entreprise)
-  - username (string)
-  - email (string)
-  - password (string)
-  - role (string)
-  - createdAt (date)
 
 
 ## Partie 1
@@ -40,8 +31,27 @@ Dans ce projet, nous allons développer le site fonctionnalité par fonctionnali
 
     - Création du formulaire d'inscription et de connexion.
     `symfony console make:user`
-    `symfony console make:auth`
+
+- [x] Mise à jour de l'entité User
+    `symfony console make:entity`
+    -  User
+      - id (int)
+      - email (string)
+      - password (string)
+      - role (string)
+        `J'ai ajouté les champs suivants dans l'entité User`
+      - status (string)=>(user,entreprise)
+      - username (string)
+      - createdAt (date)
+  `symfony console doctrine:databse:create` 
+    `symfony console make:migration`
+    `symfony console doctrine:migrations:migrate`
+
+- [x] Création du formulaire d'inscription.
     `symfony console make:registration-form`
+
+- [x] Création du formulaire de connexion.
+    `symfony console make:auth`
 
     - Sécurisation des routes. Les utilisateurs non connectés ne peuvent pas accéder à la page account.
 
@@ -193,11 +203,29 @@ Dans cette partie, nous allons créer la partie back-end du site web.
         `symfony console make:admin:crud` 
 
 
+        
+
+### REFACTORING
+
+Ici nous allons faire du refactoring sur le code existant.
+On va ajouter `ck editor`, `select2` et `knplabs/knp-time-bundlebootstrap` pour gérer les dates et les heures.
+
+Les LifeCycle Callbacks permettent d'exécuter du code à des moments précis du cycle de vie d'une entité. Par exemple, nous pouvons utiliser les LifeCycle Callbacks pour générer le slug d'une entité avant de la persister en base de données ou pour mettre à jour la date de création ou de modification d'une entité.
+Pour cela, nous allons utiliser les annotations `@ORM\HasLifecycleCallbacks` et `@ORM\PrePersist` et `@ORM\PreUpdate`.
+Cette annotation permet d'indiquer à Doctrine que l'entité contient des LifeCycle Callbacks qui seront exécutés à des moments précis du cycle de vie de l'entité.
+Ceci va nous permettre de générer le slug et le createdAt et updatedAt automatiquement.
+Pour cela nous allons ajouter une méthode ` public function initalizeSlug()` dans l'entité `Offer` qui va générer le slug à partir du titre de l'offre d'emploi.
+Nous allons également ajouter une méthode `public function initalizeCreatedAt()` qui va générer la date de création de l'offre d'emploi.
+Mettre ceci en place sur toutes les entités qui ont besoin de ces fonctionnalités.
+
 ##### JE SUIS ICI #####
 ## Partie 5
 
-- [x] Dans un premier temps, nous allons afficher les offres d'emploi sur la page d'accueil.
-    - Création de la route `/offre-emploi` qui affiche la liste des offres d'emploi sur la page d'accueil.
-    - Création de la route `/offre-emploi/{id}` qui affiche le détail d'une offre d'emploi.
-    - Permettre à l'utilisateur de postuler à une offre d'emploi.
+- [x] Nous allons, nous allons afficher les 6 dernières offres d'emploi sur la page d'accueil et les 4 dernières entreprises.
+  
+- [x] Création de la route `/offre-emploi` qui affiche la liste des offres d'emploi sur la page Offres.Pour cela, nous allons créer une méthode `public function getOffers()` dans le `HomeController` qui va récupérer les offres d'emploi et les passer à la vue `home/offer_list.html.twig`.
+
+- [x] Création de la route `/offre-emploi/{id}` qui affiche le détail d'une offre d'emploi sur la page Offre. Pour cela, nous allons créer une méthode `public function getOneOffer()` dans le `HomeController` qui va récupérer l'offre d'emploi et la passer à la vue `home/offer_detail.html.twig`.
+- [x] Permettre à l'utilisateur de postuler à une offre d'emploi.
+
   

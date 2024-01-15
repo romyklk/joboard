@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}- Liste des offres d'emploi
+{% endblock %}
+
+{% block body %}
+
+	<div class="container-fluid">
+		<div class="row mb-4">
+			<div class="jumbotron">
+				<div class="container text-center">
+					<h1 class="display-4 text-white">Liste des offres d'emploi</h1>
+					<p class="lead text-white">Recherchez une offre d'emploi parmi les offres disponibles</p>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-3">
+			<form>
+				<div class="mb-3">
+					<input type="text" class="form-control" id="tags" placeholder="Rechercher un emploi">
+				</div>
+
+				{% if tags|length > 0 %}
+					<div class="mb-3">
+						<div class="d-flex flex-wrap">
+							{% for tag in tags %}
+								<div class="form-check me-3 mb-2">
+									<input class="form-check-input" type="checkbox" value="{{ tag.name }}" id="{{ 'checkbox_' ~ tag.name }}">
+									<label class="form-check-label" for="{{ 'checkbox_' ~ tag.name }}">
+										{{ tag.name }}
+									</label>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				{% endif %}
+
+
+				<div class="mb-3">
+					<select class="form-select" id="tri">
+						<option value="recent">Plus récent</option>
+						<option value="ancien">Plus ancien</option>
+					</select>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Rechercher</button>
+			</form>
+		</div>
+		<div class="col-9">
+			<div
+				class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+				<!-- Carte offre d'emploi -->
+				{% for offer in offers %}
+					{% include "partials/_job_card.html.twig" %}
+				{% endfor %}
+				<!-- Fin carte offre d'emploi -->
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}

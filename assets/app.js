@@ -4,7 +4,34 @@
  *
  * This file will be included onto the page via the importmap() Twig function,
  * which should already be in your base.html.twig.
+ * 
  */
+
+// Ajout de la librairie select2
+$('.select2').select2({
+    selectOnClose: true
+});
+
+
+// Ajout de ck editor pour la description
+
+ClassicEditor
+    .create(document.querySelector('#offer_content'))
+    .then(editor => {
+    })
+    .catch(error => {
+    });
+
+
+// 
+ClassicEditor
+    .create(document.querySelector('#entreprise_profil_description'))
+    .then(editor => {
+    })
+    .catch(error => {
+    });
+
+
+
 import './styles/app.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');

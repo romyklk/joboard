@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Offer;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -28,8 +29,9 @@ class OfferCrudController extends AbstractCrudController
             TextField::new('location', 'Ville'),
             AssociationField::new('contractType', 'Type de contrat'),
             AssociationField::new('entreprise', 'Entreprise'),
-            AssociationField::new('tags', 'Tags')
-            
+            AssociationField::new('tags', 'Tags'),
+            BooleanField::new('isActive', 'Activée'),
+
             //Si on veut afficher les noms des tags dans la liste des offres
             /* AssociationField::new('tags', 'Tags')->formatValue(function ($value) {
                 return implode(' | ', array_map(function ($tag) {

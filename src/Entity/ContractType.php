@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ContractTypeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ContractTypeRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ContractTypeRepository::class)]
 class ContractType
 {
@@ -29,8 +31,21 @@ class ContractType
 
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
+        //$this->createdAt = new \DateTimeImmutable();
         $this->offers = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->slug = (new Slugify())->slugify($this->name);
+    }
+
+    #[ORM\PreUpdate]
+    public function preUpdate(): void
+    {
+        $this->slug = (new Slugify())->slugify($this->name);
     }
 
     public function getId(): ?int

@@ -52,7 +52,7 @@ class RegistrationController extends AbstractController
                 $user->setRoles(['ROLE_PRO']);
             }
             
-            $user->setCreatedAt(new \DateTimeImmutable('now'));
+            //$user->setCreatedAt(new \DateTimeImmutable('now'));
 
             $entityManager->persist($user);
             $entityManager->flush();

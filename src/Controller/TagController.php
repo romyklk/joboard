@@ -36,7 +36,7 @@ class TagController extends AbstractController
             // Récupérer les données du formulaire
             $tag = $form->getData();
             // Générer le slug
-            $tag->setSlug($slugify->slugify($tag->getName()));
+            //$tag->setSlug($slugify->slugify($tag->getName()));
 
             // Enregistrer le tag en BDD
             $em->persist($tag);
