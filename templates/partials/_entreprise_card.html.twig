@@ -1,9 +1,13 @@
 <div class="col-md-6 mb-4">
 
-	<div class="card mb-3" style="max-width: 540px;">
+	<div
+		class="card mb-3 home-card" style="max-width: 540px;">
+		{# {{asset('uploads/'~ entreprise.logo)}} A REMETTRE DANS LE IMG SRC #}
+
 		<div class="row g-0">
 			<div class="col-md-4">
-				<img src="{{asset('uploads/'~ entreprise.logo)}}" class="img-fluid rounded-start" alt="Logo de l'entreprise" style="height: 100%; width: 100%; object-fit: cover;"/>
+				<img src="{{entreprise.logo}}" class="img-fluid rounded-start" alt="Logo de l'entreprise" style="height: 100%; width: 100%; object-fit: cover;"/>
+
 			</div>
 			<div class="col-md-8">
 				<div class="card-body">
@@ -20,8 +24,8 @@
 						{{entreprise.email}}<br>
 					</p>
 					<a href="mailto:{{entreprise.email}}" class="btn btn-outline-secondary">Envoyer un email</a>
-				<a href="tel:{{entreprise.phoneNumber}}" class="btn btn-warning">Appeler</a>
-                <a href="" class="btn btn-info">Voir</a>
+					<a href="tel:{{entreprise.phoneNumber}}" class="btn btn-warning">Appeler</a>
+					<a href="" class="btn btn-info">Voir</a>
 				</div>
 			</div>
 		</div>

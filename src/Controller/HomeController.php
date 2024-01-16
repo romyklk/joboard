@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class HomeController extends AbstractController
 {
@@ -36,10 +37,25 @@ class HomeController extends AbstractController
 
     //affiche la liste des offres d'emploi sur la page Offres
     #[Route('/offre-emploi', name: 'app_offre_emploi', methods: ['GET'])]
-    public function deleteAll(OfferRepository $offerRepository,TagRepository $tagRepository): Response
+    public function getOffers(OfferRepository $offerRepository,TagRepository $tagRepository,Request $request): Response
     {
-        $offers = $offerRepository->findAll();
+        /*  $offers = $offerRepository->findAll();
         $tags = $tagRepository->findAll();
+        return $this->render('home/offer_list.html.twig', [
+            'offers' => $offers,
+            'tags' => $tags
+        ]); */
+
+        // 
+
+        $tags = $tagRepository->findAll();
+
+        //Récupérer le numéro de la page courante dans l'URL
+        // 1 est la valeur par défaut si aucun numéro de page n'est spécifié dans l'URL
+        $page = $request->query->getInt('page', 1);
+
+        $offers = $offerRepository->findPaginatedOffers($page, 9);
+        
         return $this->render('home/offer_list.html.twig', [
             'offers' => $offers,
             'tags' => $tags

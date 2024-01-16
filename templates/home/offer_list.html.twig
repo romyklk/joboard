@@ -54,10 +54,13 @@
 			<div
 				class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 				<!-- Carte offre d'emploi -->
-				{% for offer in offers %}
+				{% for offer in offers.data %}
 					{% include "partials/_job_card.html.twig" %}
 				{% endfor %}
 				<!-- Fin carte offre d'emploi -->
+			</div>
+			<div class="col-6 mx-auto">
+				{% include "partials/_pagination.html.twig" %}
 			</div>
 		</div>
 	</div>

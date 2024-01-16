@@ -1,0 +1,40 @@
+{# Déclaraion des variables pour la pagination #}
+{% set currentPage = offers.page %}
+{# Page courante #}
+{% set pages = offers.pages %}
+{#  nombre total de page #}
+{% set routeName = 'app_offre_emploi' %}
+{# Nom de la route #}
+
+{% if pages > 1 %}
+	{# Si le nombre de page est supérieur à 1 #}
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+			<li class="page-item {% if currentPage == 1 %} disabled {% endif %}">
+				<a href="{{ path(routeName,{page: currentPage -1})}}" class="page-link">
+					<i class="bi bi-arrow-left"></i>
+				</a>
+			</li>
+
+			{#  Boucle pour afficher les pages 7 premieres pages #}
+			{% for i in 1..7 %}
+				{# Si  la page courante - 3 + i est supérieur à 0 et inférieur ou égale au nombre de page #}
+				{% if currentPage - 3 + i > 0 and currentPage - 3 + i <= pages %}
+					<li class="page-item {% if currentPage == currentPage - 3 + i %} active {% endif %}">
+						<a href="{{ path(routeName,{page: currentPage - 3 + i})}}" class="page-link">
+							{{ currentPage - 3 + i }}
+						</a>
+					</li>
+				{% endif %}
+			{% endfor %}
+
+			<li class="page-item">
+				<a href="{{path(routeName,{page: currentPage +1})}}" class="page-link {% if currentPage == pages %} disabled {% endif %}">
+					<i class="bi bi-arrow-right"></i>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+
+{% endif %}

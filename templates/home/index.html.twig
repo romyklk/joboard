@@ -6,18 +6,16 @@
 
 {% block body %}
 	<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-		<div class="carousel-inner">
+		<div
+			class="carousel-inner">
+			{#  A REMETTRE DAANS LE IMG SRC {{ asset('uploads/' ~ setting.image) }} #}
 
 			{% for setting in homeSetting %}
 				<div class="carousel-item {% if loop.first %}active{% endif %}">
-					<img src="{{ asset('uploads/' ~ setting.image) }}" class="d-block w-100 setting-img" alt="sym job board"/>
+					<img src="{{setting.image }}" class="d-block w-100 setting-img" alt="sym job board"/>
 					<div class="carousel-caption d-none d-md-flex align-items-center justify-content-start h-100 text-start">
 						<div class="col-8">
-
-							<h3 class="text-left message">{{setting.message|raw}}
-
-							</h3>
-
+							<h3 class="text-left message">{{setting.message|raw}}</h3>
 							<button class="btn btn-primary btn-lg mt-2">
 								{{setting.callToAction|raw}}
 							</button>
@@ -29,27 +27,27 @@
 
 
 			{# <div class="carousel-item active">
-																									<img src="https://cdn.pixabay.com/photo/2015/01/12/10/45/man-597178_1280.jpg" class="d-block w-100" alt="Image 1" style="height: 500px;object-fit: cover;object-position: center center;"/>
-																									<div class="carousel-caption d-none d-md-flex align-items-center justify-content-start h-100 text-start">
-																										<div class="col-8">
-																											<h3 class="text-left">Explorez des opportunités professionnelles exceptionnelles et trouvez le job qui correspond à vos aspirations.</h3>
-																					
-																											<button class="btn btn-primary btn-lg mt-2">Explorer</button>
-																										</div>
-																									</div>
-																								</div>
-																								<div class="carousel-item">
-																									<img src="https://cdn.pixabay.com/photo/2020/07/08/04/12/work-5382501_1280.jpg" class="d-block w-100" alt="Image 2" style="height: 500px;object-fit: cover;object-position: center center;"/>
-																									<div class="carousel-caption d-none d-md-flex align-items-center justify-content-start h-100 text-start">
-																										<div class="col-8">
-																					
-																											<h3 class="text-left">Notre plateforme de job board vous connecte avec des entreprises de premier plan cherchant à recruter des talents exceptionnels.
-																											</h3>
-																					
-																											<button class="btn btn-primary btn-lg mt-2">Découvrir</button>
-																										</div>
-																									</div>
-																								</div> #}
+																												<img src="https://cdn.pixabay.com/photo/2015/01/12/10/45/man-597178_1280.jpg" class="d-block w-100" alt="Image 1" style="height: 500px;object-fit: cover;object-position: center center;"/>
+																												<div class="carousel-caption d-none d-md-flex align-items-center justify-content-start h-100 text-start">
+																													<div class="col-8">
+																														<h3 class="text-left">Explorez des opportunités professionnelles exceptionnelles et trouvez le job qui correspond à vos aspirations.</h3>
+																								
+																														<button class="btn btn-primary btn-lg mt-2">Explorer</button>
+																													</div>
+																												</div>
+																											</div>
+																											<div class="carousel-item">
+																												<img src="https://cdn.pixabay.com/photo/2020/07/08/04/12/work-5382501_1280.jpg" class="d-block w-100" alt="Image 2" style="height: 500px;object-fit: cover;object-position: center center;"/>
+																												<div class="carousel-caption d-none d-md-flex align-items-center justify-content-start h-100 text-start">
+																													<div class="col-8">
+																								
+																														<h3 class="text-left">Notre plateforme de job board vous connecte avec des entreprises de premier plan cherchant à recruter des talents exceptionnels.
+																														</h3>
+																								
+																														<button class="btn btn-primary btn-lg mt-2">Découvrir</button>
+																													</div>
+																												</div>
+																											</div> #}
 
 		</div>
 	</div>
