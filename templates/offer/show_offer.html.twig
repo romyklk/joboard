@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Mon compte
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-2 bg-dark text-white">
+				{% include 'partials/_sidebar.html.twig' %}
+			</div>
+			<div class="col-10 bg-custom-account">
+				{% block content %}
+					<div class="row">
+						<div class="col-12">
+							<h1 class="text-center">
+								Detail de l'offre
+								{{ offer.title }}
+							</h1>
+						</div>
+
+						<div class="col-12">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title mb-3">{{ offer.title }}</h5>
+									<h6 class="card-subtitle mb-3 text-muted">
+										Ajouté le
+										{{ offer.createdAt|date('d/m/Y') }}
+									</h6>
+									<h6 class="card-subtitle text-muted">Description courte :
+									</h6>
+									<p class="card-text">{{ offer.shortDescription }}</p>
+									<h6 class="card-subtitle text-muted">Details de l'offre :
+									</h6>
+
+									<p class="card-text">{{ offer.content }}</p>
+									<h6 class="card-subtitle text-muted">Salaire :</h6>
+									<p class="card-text">{{ offer.salary }}
+										€</p>
+									<h6 class="card-subtitle text-muted">Localisation :</h6>
+									<p class="card-text">{{ offer.location }}</p>
+									<h6 class="card-subtitle text-muted">Entreprise :</h6>
+									<p class="card-text">{{ offer.entreprise }}</p>
+									<h6 class="card-subtitle text-muted">Type de contrat :</h6>
+									<p class="card-text">{{ offer.contractType }}</p>
+									<h6 class="card-subtitle text-muted">Mot clés :</h6>
+									{% for tag in offer.tags %}
+										<span class="badge rounded-pill text-bg-primary">{{ tag.name }}</span>
+									{% endfor %}
+
+								</div>
+							</div>
+						</div>
+					{% endblock %}
+				</div>
+
+			</div>
+		{% endblock %}

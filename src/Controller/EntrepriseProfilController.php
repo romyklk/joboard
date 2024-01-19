@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Repository\EntrepriseProfilRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\Services\UploadFilesServices;
+use App\Services\UploadFilesServices;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -56,7 +56,12 @@ class EntrepriseProfilController extends AbstractController
             $em->persist($entrepriseProfil);
             $em->flush();
 
-            $this->addFlash('success', 'Profil à créé avec succès');
+            notyf()
+            ->position('x', 'right')
+                ->position('y', 'top')
+                ->dismissible(true)
+                ->addSuccess('Votre profil a bien été créé.');
+
             return $this->redirectToRoute('app_entreprise_profil_show', ['id' => $entrepriseProfil->getId()]);
         }
         return $this->render('entreprise_profil/index.html.twig', [
@@ -115,7 +120,12 @@ class EntrepriseProfilController extends AbstractController
             $em->persist($entrepriseProfil);
             $em->flush();
 
-            $this->addFlash('success', 'Profil mis à jour avec succès');
+            notyf()
+            ->position('x', 'right')
+                ->position('y', 'top')
+                ->dismissible(true)
+                ->addSuccess('Votre profil a bien été mis à jour.');
+
             return $this->redirectToRoute('app_account');
         }
         return $this->render('entreprise_profil/edit.html.twig', [
@@ -125,7 +135,7 @@ class EntrepriseProfilController extends AbstractController
 
     // Cette route permet de supprimer le profil de l'utilisateur connecté
     #[Route('/entreprise/profil/{id}/delete', name: 'app_entreprise_profil_delete')]
-    public function delete(int $id, EntrepriseProfilRepository $entrepriseProfilRepository, EntityManagerInterface $em, TokenStorageInterface $tokenStorage, SessionInterface $session): Response
+    public function delete(int $id, EntrepriseProfilRepository $entrepriseProfilRepository, EntityManagerInterface $em, TokenStorageInterface $tokenStorage, SessionInterface $session, UploadFilesServices $uploadFilesServices): Response
     {
         // Si l'utilisateur connecté n'est pas le propriétaire du profil, on le redirige vers son profil
         $user = $this->getUser();
@@ -139,6 +149,13 @@ class EntrepriseProfilController extends AbstractController
 
         $em->remove($entrepriseProfil);
         $em->flush();
+
+        // On supprime l'image du dossier uploads
+        // On supprime l'image du dossier uploads
+        if ($entrepriseProfil->getPicture() !== 'default.png') {
+            $uploadFilesServices->deleteFile($entrepriseProfil->getLogo());
+        }
+
 
         // Déconnecter l'utilisateur
         $tokenStorage->setToken(null);

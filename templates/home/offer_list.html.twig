@@ -23,29 +23,39 @@
 				<div class="mb-3">
 					<input type="text" class="form-control" id="tags" placeholder="Rechercher un emploi">
 				</div>
-
-				{% if tags|length > 0 %}
-					<div class="mb-3">
-						<div class="d-flex flex-wrap">
-							{% for tag in tags %}
-								<div class="form-check me-3 mb-2">
-									<input class="form-check-input" type="checkbox" value="{{ tag.name }}" id="{{ 'checkbox_' ~ tag.name }}">
-									<label class="form-check-label" for="{{ 'checkbox_' ~ tag.name }}">
-										{{ tag.name }}
-									</label>
-								</div>
-							{% endfor %}
-						</div>
-					</div>
-				{% endif %}
-
-
 				<div class="mb-3">
 					<select class="form-select" id="tri">
 						<option value="recent">Plus récent</option>
 						<option value="ancien">Plus ancien</option>
 					</select>
 				</div>
+				{% if tags|length > 0 %}
+					<div class="mb-3">
+						<div class="accordion" id="accordionExample">
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										Mot clés
+									</button>
+								</h2>
+								<div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										{% for tag in tags %}
+											<div class="form-check me-3 mb-2 d-inline-block">
+												<input class="form-check-input" type="checkbox" value="{{ tag.name }}" id="{{ 'checkbox_' ~ tag.name }}">
+												<label class="form-check-label" for="{{ 'checkbox_' ~ tag.name }}">
+													{{ tag.name }}
+												</label>
+											</div>
+										{% endfor %}
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+
 
 				<button type="submit" class="btn btn-primary">Rechercher</button>
 			</form>

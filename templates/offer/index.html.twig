@@ -20,13 +20,17 @@
 						</a>
 					</div>
 					<hr>
-					<h2 class="text-center">Liste de nos offres</h2>
 
 					{% if offers|length == 0 %}
+						<h2 class="text-center">Liste de nos offres</h2>
 						<div class="alert alert-info">
 							Aucune offre n'a été trouvée.
 						</div>
 					{% else %}
+						<h2 class="text-center">Liste de
+							{{offers|length}}
+							nos offres d'emploi
+						</h2>
 						<div class="table-responsive">
 							<table class="table table-striped table-hover">
 								<thead>
@@ -43,7 +47,7 @@
 
 
 									{% for offer in offers %}
-									
+
 										<tr>
 											<td>{{ offer.title }}</td>
 											<td>{{ offer.contractType.name }}</td>
@@ -53,13 +57,15 @@
 											<td>{{ offer.createdAt|date('d/m/Y') }}</td>
 											{% if offer.isActive %}
 												<td>
-													<a href="" class="btn btn-primary">
+													<a href="{{path('app_offer_show',{'id': offer.id})}}" class="btn btn-primary">
+
 														<i class="bi bi-eye"></i>
 													</a>
-													<a href="" class="btn btn-warning">
+													<a href="{{path('app_offer_edit',{'id': offer.id})}}" class="btn btn-warning">
+
 														<i class="bi bi-pencil-square"></i>
 													</a>
-													<a href="" class="btn btn-danger">
+													<a href="{{path('app_offer_delete',{'id': offer.id})}}" class="btn btn-danger">
 														<i class="bi bi-trash"></i>
 													</a>
 												</td>
@@ -67,7 +73,7 @@
 											{% else %}
 												<td class="text-danger">
 													Désactivée
-													<a href="" class="btn btn-danger">
+													<a href="{{path('app_offer_delete',{'id': offer.id})}}" class="btn btn-danger">
 														<i class="bi bi-trash"></i>
 													</a>
 												</td>

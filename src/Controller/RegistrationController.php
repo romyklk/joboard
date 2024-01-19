@@ -28,7 +28,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager,MailerInterface $mailer): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         // Si l'utilisateur est déjà connecté, on le redirige vers la page account
         if ($this->getUser()) {
@@ -39,7 +39,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $user->setUsername($form->get('username')->getData());
             // encode the plain password
             $user->setPassword(
@@ -48,16 +48,20 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            if($form->get('status')->getData() === 'Entreprise'){
+            if ($form->get('status')->getData() === 'Entreprise') {
                 $user->setRoles(['ROLE_PRO']);
             }
-            
+
             //$user->setCreatedAt(new \DateTimeImmutable('now'));
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre compte a bien été créé. Un mail de confirmation vous a été envoyé afin de valider votre compte.');
+            notyf()
+                ->position('x', 'right')
+                ->position('y', 'top')
+                ->dismissible(true)
+                ->addSuccess('Votre compte a bien été créé. Un mail de confirmation vous a été envoyé afin de valider votre compte.');
 
             // generate a signed url and email it to the user
             // Pour l'envoi de mail, utiliser mailtrap.io et configurer le .env. Puis aller dans le dossier config/packages/messenger.yaml et commenter la ligne dans le routing            #Symfony\Component\Mailer\Messenger\SendEmailMessage: async
@@ -89,15 +93,15 @@ class RegistrationController extends AbstractController
                 'app_verify_email',
                 $user,
                 (new TemplatedEmail())
-                ->from(new Address($user->getEmail(), $user->getUsername()))
-                ->to('romyklk2210@gmail.com')
-                ->subject('Mail de confirmation de compte')
-                ->htmlTemplate('emails/confirmation_email.html.twig')
-                // Passage des variables à la vue twig pour le mail
-                ->context([
-                    'user' => $user->getUsername(),
-                ])
-            ); 
+                    ->from(new Address($user->getEmail(), $user->getUsername()))
+                    ->to('romyklk2210@gmail.com')
+                    ->subject('Mail de confirmation de compte')
+                    ->htmlTemplate('emails/confirmation_email.html.twig')
+                    // Passage des variables à la vue twig pour le mail
+                    ->context([
+                        'user' => $user->getUsername(),
+                    ])
+            );
 
 
             return $this->redirectToRoute('app_login');
@@ -123,7 +127,11 @@ class RegistrationController extends AbstractController
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Votre compte a bien été vérifié !');
+        notyf()
+            ->position('x', 'right')
+            ->position('y', 'top')
+            ->dismissible(true)
+            ->addSuccess('Votre email a bien été vérifié.');
 
         return $this->redirectToRoute('app_account');
     }

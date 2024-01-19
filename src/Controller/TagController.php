@@ -20,7 +20,9 @@ class TagController extends AbstractController
     #[Route('/tag', name: 'app_tag_add')]
     public function index(Request $request,EntityManagerInterface $em,TagRepository $tagRepository): Response
     {
-        $allTags = $tagRepository->findAll();
+        //$allTags = $tagRepository->findAll();
+        // Récupérer tous les tags par ordre alphabétique
+        $allTags = $tagRepository->findBy([], ['name' => 'ASC']);
 
         // Créer un nouveau tag
         $tag = new Tag();

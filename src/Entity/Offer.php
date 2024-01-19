@@ -63,13 +63,17 @@ class Offer
     private Collection $tags;
 
     #[ORM\Column]
-    private ?bool $isActive = null; 
+    private ?bool $isActive = null;
+
+    #[ORM\OneToMany(mappedBy: 'Offer', targetEntity: Application::class)]
+    private Collection $applications; 
 
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         //$this->createdAt = new \DateTimeImmutable();
         //$this->isActive = true;
+        $this->applications = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -246,5 +250,37 @@ public function isActive(): ?bool
         $this->isActive = $isActive;
 
         return $this;
-    } 
+    }
+
+    /**
+     * @return Collection<int, Application>
+     */
+    public function getApplications(): Collection
+    {
+        return $this->applications;
+    }
+
+    public function addApplication(Application $application): static
+    {
+        if (!$this->applications->contains($application)) {
+            $this->applications->add($application);
+            $application->setOffer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApplication(Application $application): static
+    {
+        if ($this->applications->removeElement($application)) {
+            // set the owning side to null (unless already changed)
+            if ($application->getOffer() === $this) {
+                $application->setOffer(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

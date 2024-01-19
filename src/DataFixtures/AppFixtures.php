@@ -61,6 +61,46 @@ class AppFixtures extends Fixture
             'Swift',
             'Kotlin',
             'TypeScript',
+            'JavaScript',
+            'HTML',
+            'CSS',
+            'SQL',
+            'NoSQL',
+            'MongoDB',
+            'MySQL',
+            'PostgreSQL',
+            'Oracle',
+            'MariaDB',
+            'SQLite',
+            'Docker',
+            'Kubernetes',
+            'Git',
+            'GitHub',
+            'GitLab',
+            'BitBucket',
+            'Jenkins',
+            'Travis',
+            'AWS',
+            'Azure',
+            'Google Cloud',
+            'Heroku',
+            'Digital Ocean',
+            'Linux',
+            'Windows',
+            'MacOS',
+            'Android',
+            'iOS',
+            'React Native',
+            'Flutter',
+            'Ionic',
+            'Xamarin',
+            'React',
+            'Redux',
+            'Vue',
+            'Vuex',
+            'NestJS',
+            'Express',
+            'Laravel',
         ];
 
         foreach ($tagList as $tagName) {
@@ -176,13 +216,20 @@ class AppFixtures extends Fixture
                 $newOffer->setTitle($faker->jobTitle());
                 $newOffer->setSlug($faker->slug());
                 $newOffer->setShortDescription($faker->paragraph(2));
-                $newOffer->setContent($faker->paragraph(5));
+                $newOffer->setContent($faker->paragraph(50));
                 $newOffer->setCreatedAt(new \DateTimeImmutable());
                 $newOffer->setContractType($faker->randomElement($contractList));
                 $newOffer->setSalary($faker->numberBetween(20000, 100000));
                 $newOffer->setLocation($faker->city());
                 $newOffer->setEntreprise($recruteurRandom);
-                $newOffer->addTag($faker->randomElement($tags));
+                // Ajout entre 3 et 6 tags à l'offre
+                $randomTags = $faker->randomElements($tags, $faker->numberBetween(3, 6));
+                foreach ($randomTags as $tag) {
+                    $newOffer->addTag($tag);
+                }
+                //$newOffer->addTag($faker->randomElement($tags));
+
+                
                 $manager->persist($newOffer);
                 $manager->flush();
             }

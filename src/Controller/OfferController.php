@@ -63,8 +63,13 @@ class OfferController extends AbstractController
 
             $em->persist($offer);
             $em->flush();
-            
-            $this->addFlash('success', 'Votre offre a été créé avec succès');
+
+            notyf()
+                ->position('x', 'right')
+                ->position('y', 'top')
+                ->dismissible(true)
+                ->addSuccess('Votre offre a bien été créée.');
+                
             return $this->redirectToRoute('app_offer');
         }
 
@@ -91,5 +96,107 @@ class OfferController extends AbstractController
         return $this->redirectToRoute('app_offer');
     } */
 
+
+    #[Route('/offer/{id}/edit', name: 'app_offer_edit')]
+    public function edit(Request $request, int $id, OfferRepository $offerRepository, EntityManagerInterface $em): Response
+    {
+        // Récupération de l'utilisateur connecté
+        $user = $this->getUser();
+
+        // Récupération de l'entreprise de l'utilisateur connecté
+        $company = $user->getEntrepriseProfil();
+
+        // Si l'utilisateur n'a encore créer de profil entreprise, on le redirige vers la page de création de profil
+        if (!$company) {
+            return $this->redirectToRoute('app_entreprise_profil');
+        }
+
+        $offer = $offerRepository->find($id);
+        // Si l'on ne trouve pas l'offre ou que l'offre ne correspond pas à l'entreprise connectée, on redirige vers la page des offres
+        if (!$offer || $offer->getEntreprise() !== $company) {
+            return $this->redirectToRoute('app_offer');
+        }
+
+        $form = $this->createForm(OfferType::class, $offer);
+
+        $form->handleRequest($request);
+        //$slugify = new Slugify();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //$offer->setSlug($slugify->slugify($offer->getTitle()));
+            $em->persist($offer);
+            $em->flush();
+
+            notyf()
+                ->position('x', 'right')
+                ->position('y', 'top')
+                ->dismissible(true)
+                ->addSuccess('Votre offre a bien été modifiée.');
+
+            return $this->redirectToRoute('app_offer');
+        }
+
+        return $this->render('offer/edit.html.twig', [
+            'form' => $form->createView(),
+            'offer' => $offer,
+        ]);
+    }
+
+    #[Route('/offer/{id}/delete', name: 'app_offer_delete')]
+    public function delete(int $id, OfferRepository $offerRepository, EntityManagerInterface $em): Response
+    {
+        // Récupération de l'utilisateur connecté
+        $user = $this->getUser();
+
+        // Récupération de l'entreprise de l'utilisateur connecté
+        $company = $user->getEntrepriseProfil();
+
+        // Si l'utilisateur n'a encore créer de profil entreprise, on le redirige vers la page de création de profil
+        if (!$company) {
+            return $this->redirectToRoute('app_entreprise_profil');
+        }
+
+        $offer = $offerRepository->find($id);
+        // Si l'on ne trouve pas l'offre ou que l'offre ne correspond pas à l'entreprise connectée, on redirige vers la page des offres
+        if (!$offer || $offer->getEntreprise() !== $company) {
+            return $this->redirectToRoute('app_offer');
+        }
+
+        $em->remove($offer);
+        $em->flush();
+
+        notyf()
+            ->position('x', 'right')
+            ->position('y', 'top')
+            ->dismissible(true)
+            ->addSuccess('Votre offre a bien été supprimée.');
+
+        return $this->redirectToRoute('app_offer');
+    }
+
+    #[Route('/offer/{id}/show', name: 'app_offer_show')]
+    public function show(int $id, OfferRepository $offerRepository): Response
+    {
+        // Récupération de l'utilisateur connecté
+        $user = $this->getUser();
+
+        // Récupération de l'entreprise de l'utilisateur connecté
+        $company = $user->getEntrepriseProfil();
+
+        // Si l'utilisateur n'a encore créer de profil entreprise, on le redirige vers la page de création de profil
+        if (!$company) {
+            return $this->redirectToRoute('app_entreprise_profil');
+        }
+
+        $offer = $offerRepository->find($id);
+        // Si l'on ne trouve pas l'offre ou que l'offre ne correspond pas à l'entreprise connectée, on redirige vers la page des offres
+        if (!$offer || $offer->getEntreprise() !== $company) {
+            return $this->redirectToRoute('app_offer');
+        }
+
+        return $this->render('offer/show_offer.html.twig', [
+            'offer' => $offer,
+        ]);
+    }
 
 }

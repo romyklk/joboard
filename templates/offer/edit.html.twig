@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Mon compte
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-2 bg-dark text-white">
+				{% include 'partials/_sidebar.html.twig' %}
+			</div>
+			<div class="col-10 bg-custom-account">
+				{% block content %}
+					<div class="row">
+						<div class="col-12">
+							<h3 class="text-center">
+								Modifier l'offre
+								<span class="badge bg-info">{{ offer.title }}</span>
+							</h3>
+						</div>
+						<class="col-12">
+							{{ form_start(form) }}
+
+							{{ form_row(form.title) }}
+							<div class="row g-3">
+								<div class="col">{{ form_row(form.salary) }}</div>
+								<div class="col">{{ form_row(form.location) }}</div>
+								<div class="col">{{ form_row(form.contractType) }}</div>
+							</div>
+							{{ form_row(form.shortDescription) }}
+							{{ form_row(form.content) }}
+							{{ form_row(form.tags) }}
+
+
+							<button type="submit" class="btn btn-primary">Modifier</button>
+							{{ form_end(form) }}
+						</div>
+					</div>
+
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

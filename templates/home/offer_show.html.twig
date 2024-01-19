@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}- Detail de l'offre d'emploi
+	{{ offer.title }}
+{% endblock %}
+
+{% block body %}
+
+	<div class="container-fluid">
+		<div class="row mb-4">
+			<div class="jumbotron">
+				<div class="container text-center">
+					<h1 class="display-4 text-white">{{ offer.title }}</h1>
+					<h4 class="text-white">
+						Type de contrat :
+						{{ offer.contractType }}
+					</h4>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="{% if not is_granted('ROLE_USER') %} col-11 {% else %} col-9 mx-auto {% endif %}">
+			<div class="card text-center">
+				<div class="card-header">
+					Poste basé à
+					{{ offer.location }}
+				</div>
+				<div class="card-body text-start">
+					<h5 class="card-title ">
+						Présentation du poste
+					</h5>
+					<p class="card-text ">
+						{{ offer.shortDescription }}
+					</p>
+					<h5 class="card-title ">
+						Détail de l'offre
+					</h5>
+					<p class="card-text ">
+						{{ offer.content }}
+					</p>
+					<h5 class="card-title ">
+						Compétences requises
+					</h5>
+					<ul class="list-inline">
+						{% for tag in offer.tags %}
+							<li class="list-inline-item">
+								<span class="badge bg-primary">{{tag.name}}</span>
+							</li>
+						{% endfor %}
+					</ul>
+					{% if not is_granted('ROLE_USER') %}
+						<a href="{{ path('app_login') }}" class="btn btn-primary">Connectez-vous pour postuler</a>
+					{% endif %}
+				</div>
+				<div class="card-footer text-body-light lead  border-0">
+					{{offer.createdAt|ago(locale='fr')}}
+					Par
+					<b class="lead">
+						{{ offer.entreprise.name|upper }}
+					</b>
+				</div>
+			</div>
+
+
+		</div>
+		{% if is_granted('ROLE_USER') %}
+			<div class="col-3 mt-5">
+				<div class="card text-center ">
+					<div class="card-header bg-dark">
+						<h5 class="card-title text-white">Postuler</h5>
+					</div>
+					{{ form_errors(form) }}
+					{{ form_start(form) }}
+					<div class="card-body">
+						{{ form_row(form) }}
+					</div>
+
+					{% if existingApplication is null %}
+						<button type="submit" class="btn btn-primary my-3">Envoyer</button>
+					{% else %}
+						<button class="btn btn-primary my-3" disabled>
+							Vous avez déjà postulé
+						</button>
+					{% endif %}
+					{{ form_end(form) }}
+
+				</div>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}

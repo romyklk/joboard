@@ -3,15 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Offer;
+use App\Entity\Application;
 use App\Entity\HomeSetting;
+use App\Form\ApplicationType;
 use App\Entity\EntrepriseProfil;
-use App\Repository\OfferRepository;
+use App\Repository\ApplicationRepository;
 use App\Repository\TagRepository;
+use App\Repository\OfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 class HomeController extends AbstractController
 {
@@ -61,5 +64,78 @@ class HomeController extends AbstractController
             'tags' => $tags
         ]);
     } 
+
+
+    //Afficher les details d'une offre
+    #[Route('/offre-emploi/{id}/{slug}', name: 'app_offre_emploi_show', methods: ['GET', 'POST'])]
+    public function showOffer(int $id, string $slug, Request $request,OfferRepository $offerRepository,ApplicationRepository $applicationRepository,EntityManagerInterface $em): Response
+    {
+        // Récupérer l'offre d'emploi
+        $offer = $offerRepository->findOneBy([
+            'id' => $id,
+            'slug' => $slug
+        ]);
+
+        // Si l'offre n'existe pas, on affiche une erreur 404
+        if(!$offer) {
+            throw $this->createNotFoundException('Cette offre n\'existe pas');
+        }
+
+        // Si le candidat a déjà postulé à cette offre, on le redirige vers la page de l'offre
+
+        $existingApplication = $applicationRepository->findOneBy([
+            'user' => $this->getUser(),
+            'Offer' => $offer // ATTENTION J'UTILISE LA PROPRIETE Offer AVEC UNE MAJUSCULE
+        ]);
+        //dd($existingApplication);
+
+        if ($existingApplication) {
+            //$this->addFlash('danger', 'Vous avez déjà postulé à cette offre');
+            notyf()
+            ->position('x', 'right')
+                ->position('y', 'top')
+                ->dismissible(true)
+                ->addWarning('Vous avez déjà postulé à cette offre.');
+            //return $this->redirectToRoute('app_offre_emploi');
+        }
+
+        // Envoyer le formulaire de candidature
+        $application = new Application();
+        $form = $this->createForm(ApplicationType::class, $application);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            // Récupérer l'utilisateur connecté
+            $user = $this->getUser();
+
+            // Récupérer le message
+            $message = $form->get('message')->getData();
+
+            $application->setUser($user);
+            $application->setOffer($offer);
+            $application->setMessage($message);
+            $application->setCreatedAt(new \DateTimeImmutable());
+            $application->setStatus('STATUS_PENDING');
+
+            // Enregistrer l'application 
+            $em->persist($application);
+            $em->flush();
+            // Envoyer un message flash
+            notyf()
+            ->position('x', 'right')
+                ->position('y', 'top')
+                ->dismissible(true)
+                ->addSuccess('Votre candidature a bien été envoyée.');
+
+            // Rediriger l'utilisateur vers la page des offres
+            return $this->redirectToRoute('app_offre_emploi');
+        }
+
+        return $this->render('home/offer_show.html.twig', [
+            'offer' => $offer,
+            'form' => $form->createView(),
+            'existingApplication' => $existingApplication ?? null
+        ]);
+    }
 
 }
