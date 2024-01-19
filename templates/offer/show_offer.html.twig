@@ -49,12 +49,18 @@
 									{% for tag in offer.tags %}
 										<span class="badge rounded-pill text-bg-primary">{{ tag.name }}</span>
 									{% endfor %}
+									<div class="my-3">
+										<a href="{{path('app_offer')}}" class="btn btn-primary">
+											<i class="bi bi-arrow-left"></i>
+											Retour</a>
 
+									</div>
 								</div>
 							</div>
 						</div>
-					{% endblock %}
-				</div>
-
+					</div>
+				{% endblock %}
 			</div>
-		{% endblock %}
+
+		</div>
+	{% endblock %}
