@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}- Erreur 403
+{% endblock %}
+
+{% block body %}
+	<div class="row ">
+		<div class="col-md-6 mx-auto m-5 text-center">
+			<h1 class="text-danger">Erreur 403</h1>
+			<h2 class="text-warning">Alors comme ça on veut accéder à des pages qui ne nous appartiennent pas ? <img src="{{ asset('uploads/mdr.svg') }}" alt="403" width="50px" height="50px">
+			</h2>
+			<p class="lead">
+				Vous n'avez pas les droits nécessaires pour accéder à cette page.Merci de contacter l'administrateur du site.
+			</p>
+			
+			<a href="{{ path('app_home') }}" class="btn btn-outline-primary">Retour à l'accueil</a>
+		</div>
+	</div>
+{% endblock %}

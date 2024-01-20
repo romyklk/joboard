@@ -87,6 +87,7 @@ class EntrepriseProfilController extends AbstractController
             'entrepriseProfil' => $entrepriseProfil,
         ]);
     }
+
     // Cette route permet de modifier le profil de l'utilisateur connecté
     #[Route('/entreprise/profil/{id}/edit', name: 'app_entreprise_profil_edit')]
     public function edit(Request $request, int $id, EntrepriseProfilRepository $entrepriseProfilRepository, EntityManagerInterface $em, UploadFilesServices $uploadFilesServices): Response

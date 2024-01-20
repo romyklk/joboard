@@ -232,7 +232,6 @@ Mettre ceci en place sur toutes les entités qui ont besoin de ces fonctionnalit
 
 - [x] Création de la pagination sur la page `/offre-emploi`. Nous allons le faire sans utiliser de bundle externe.Vous pouvez utiliser le bundle `knplabs/knp-paginator-bundle` si vous le souhaitez.
 
-##### JE SUIS ICI #####
 
 - [x] Création de la route `/offre-emploi/{id}` qui affiche le détail d'une offre d'emploi sur la page Offre. Pour cela, nous allons créer une méthode `public function getOneOffer()` dans le `HomeController` qui va récupérer l'offre d'emploi et la passer à la vue `home/offer_detail.html.twig`.
 - [x] Permettre à l'utilisateur de postuler à une offre d'emploi.
@@ -252,4 +251,47 @@ Mettre ceci en place sur toutes les entités qui ont besoin de ces fonctionnalit
 - [x] Création de la route `/apply/{id}` qui permet à l'utilisateur de postuler à une offre d'emploi.L'utilisateur doit être connecté pour pouvoir postuler à une offre d'emploi.
 - [x] Création de la route `/account/application` qui permet à l'utilisateur de voir ses candidatures.
 - [x] Création de la route `/entreprise/application` qui permet à l'entreprise de voir les candidatures à ses offres d'emploi.
-  
+
+
+## Partie 6
+- [x] Dans un premier temps, nous allons créer une entité `PasswordUpdate` qui va permettre à l'utilisateur de modifier son mot de passe.Cette entité ne sera pas persistée en base de données.Donc on va supprimer toutes les annotations ORM.
+    - Création de l'entité `PasswordUpdate` qui contient les champs suivants:
+        - id (int)
+        - oldPassword (string)
+        - newPassword (string)
+        - confirmNewPassword (string)
+    `symfony console make:entity PasswordUpdate`
+
+- [x] Création du formulaire de modification de mot de passe.
+    `symfony console make:form UserPasswordUpdate` Ce formulaire va permettre à l'utilisateur de modifier son mot de passe. **Attention** : Ce formulaire ne sera pas lié à une entité car l'entité `PasswordUpdate` ne sera pas persistée en base de données. Le formulaire doit contenir les champs suivants:
+        - oldPassword (password)
+        - newPassword (password)
+        - confirmNewPassword (password)
+
+- [x] Créer la route `/user/profil/{id}/update-password` qui permet à l'utilisateur connecté de modifier son mot de passe depuis son compte.
+
+
+
+
+## Gestions des erreurs PRE PRODUCTION
+
+Dans cette partie, nous allons voir comment gérer les erreurs avec le `twig bundle` avant la mise en production. Nous allons donc créer des pages d'erreurs personnalisées en fonction du type d'erreur. cf: `https://symfony.com/doc/current/controller/error_pages.html`
+Pouur cela nous allons créer les dossier et fichiers suivants:
+
+templates/ ==> `Dossier qui contient les templates du site web`
+└─ bundles/ ==> `Dossier qui contient les templates des bundles`
+   └─ TwigBundle/ ==> `Dossier qui contient les templates du bundle Twig`
+      └─ Exception/ ==> `Dossier qui contient les templates des exceptions`
+         ├─ error404.html.twig ==> `Template de la page 404`
+         ├─ error403.html.twig ==> `Template de la page 403`
+         └─ error.html.twig     ==> `Template pour les autres erreurs`
+
+
+- [x] Création d'une page 404 qui s'affiche lorsque l'utilisateur essaie d'accéder à une page qui n'existe pas.
+- [x] Création d'une page 403 qui s'affiche lorsque l'utilisateur essaie d'accéder à une page sans avoir les droits nécessaires.
+- [x] Création d'une page d'erreur qui s'affiche pour les autres erreurs.
+
+Pour tester les pages d'erreurs,en mode développement, on va taper une url 
+
+`https://localhost:8000/_error/404`  pour tester la page 404
+`https://localhost:8000/_error/403`  pour tester la page 403

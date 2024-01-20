@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}- Erreur
+{% endblock %}
+
+{% block body %}
+	<div class="row ">
+		<div class="col-md-6 mx-auto m-5 text-center">
+			<h1 class="text-danger">Erreur</h1>
+			<p>
+				Un problème est survenu lors de l'accès à la page demandée.Veuillez réessayer plus tard. Ou contactez-nous si le problème persiste.
+			</p>
+			<a href="{{ path('app_home') }}" class="btn btn-outline-primary">Retour à l'accueil</a>
+		</div>
+	</div>
+{% endblock %}

@@ -5,14 +5,20 @@ namespace App\Controller;
 use App\Entity\UserProfil;
 use Cocur\Slugify\Slugify;
 use App\Form\UserProfilType;
+use App\Entity\PasswordUpdate;
+use App\Form\UpdatePasswordType;
+use App\Services\UploadFilesServices;
+use Symfony\Component\Form\FormError;
 use App\Repository\UserProfilRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Services\UploadFilesServices;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 // On définit le préfixe de route pour toutes les routes de ce contrôleur
@@ -21,7 +27,7 @@ class UserProfilController extends AbstractController
 {
     #[Route('/user/profil', name: 'app_user_profil')]
     public function index(Request $request, UserProfilRepository $userProfilRepository, UploadFilesServices $uploadFilesServices, EntityManagerInterface $em): Response
-    { 
+    {
         // On vérifie que l'utilisateur n'a pas déjà un profil
         $user = $this->getUser();
         if ($user->getUserProfil() !== null) {
@@ -62,7 +68,7 @@ class UserProfilController extends AbstractController
             $em->flush();
 
             notyf()
-            ->position('x', 'right')
+                ->position('x', 'right')
                 ->position('y', 'top')
                 ->dismissible(true)
                 ->addSuccess('Votre profil a bien été créé.');
@@ -135,7 +141,7 @@ class UserProfilController extends AbstractController
             $em->flush();
 
             notyf()
-            ->position('x', 'right')
+                ->position('x', 'right')
                 ->position('y', 'top')
                 ->dismissible(true)
                 ->addSuccess('Votre profil a bien été modifié.');
@@ -153,7 +159,7 @@ class UserProfilController extends AbstractController
 
     // Cette route permet de supprimer le profil de l'utilisateur connecté
     #[Route('/user/profil/{id}/delete', name: 'app_user_profil_delete')]
-    public function delete(int $id, UserProfilRepository $userProfilRepository, EntityManagerInterface $em, TokenStorageInterface $tokenStorage, SessionInterface $session,UploadFilesServices $uploadFilesServices): Response
+    public function delete(int $id, UserProfilRepository $userProfilRepository, EntityManagerInterface $em, TokenStorageInterface $tokenStorage, SessionInterface $session, UploadFilesServices $uploadFilesServices): Response
     {
         // Si l'utilisateur connecté n'est pas le propriétaire du profil, on le redirige vers son profil
         $user = $this->getUser();
@@ -172,7 +178,7 @@ class UserProfilController extends AbstractController
         $em->remove($userProfil);
         $em->flush();
 
-        
+
 
         // Déconnecter l'utilisateur
         $tokenStorage->setToken(null);
@@ -181,4 +187,61 @@ class UserProfilController extends AbstractController
         $session->invalidate();
         return $this->redirectToRoute('app_home');
     }
+
+    // Cette route permet de modifier le profil de l'utilisateur connecté depuis la page de son profil
+
+    #[Route('/user/profil/{id}/update-password', name: 'app_user_profil_update_password')]
+    public function updatePassword(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasherInterface,UserRepository $userRepository): Response
+    {
+        $user = $this->getUser();
+
+        $passwordUpdate = new PasswordUpdate();
+        $form = $this->createForm(UpdatePasswordType::class, $passwordUpdate);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Définir les valeurs de oldPassword, newPassword et confirmPassword dans l'objet PasswordUpdate
+            $passwordUpdate = $form->getData();
+
+            // Créer une variable pour stocker le mot de passe de l'utilisateur
+            $oldPassword = $passwordUpdate->getOldPassword();
+            $newPassword = $passwordUpdate->getNewPassword();
+            $confirmPassword = $passwordUpdate->getConfirmPassword();
+
+            // Vérifier que le mot de passe saisi correspond bien au mot de passe de l'utilisateur
+
+            if (!password_verify($oldPassword, $user->getPassword())) {
+                //Ici on récupère le champ oldPassword et on lui ajoute une erreur avec addError et on lui passe un nouvel objet FormError avec un message d'erreur
+                $form->get('oldPassword')
+                    ->addError(
+                        new FormError(
+                            'Le mot de passe saisi ne correspond pas à votre mot de passe actuel.'
+                        )
+                    );
+            } else {
+                // hasher le nouveau mot de passe
+                $newPasswordHash = $userPasswordHasherInterface->hashPassword($user, $newPassword);
+                $user->setPassword($newPasswordHash);
+                $em->persist($user);
+                $em->flush();
+
+                notyf()
+                    ->position('x', 'right')
+                    ->position('y', 'top')
+                    ->dismissible(true)
+                    ->addSuccess('Votre mot de passe a bien été modifié.');
+
+                return $this->redirectToRoute('app_user_profil_show', [
+                    'id' => $user->getUserProfil()->getId()
+                ]);
+            }
+        }
+
+        return $this->render('user_profil/update_password.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    } 
+
+
 }
