@@ -19,15 +19,12 @@ class AppFixtures extends Fixture
     {
 
 
-
         $imageTab = [
             "https://source.unsplash.com/random",
             "https://source.unsplash.com/featured",
             "https://source.unsplash.com/1600x900/?nature,water",
             "https://source.unsplash.com/1600x900/?car",
         ];
-
-
 
         // Insertion des réglages de l'application(HomeSettings)
         
@@ -234,5 +231,15 @@ class AppFixtures extends Fixture
                 $manager->flush();
             }
         }
+
+        // Créer un admin
+        $admin = new User();
+        $admin->setEmail('romy@romy.com');
+        $admin->setPassword(password_hash('password', PASSWORD_DEFAULT));
+        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setUsername('Romy admin');
+        $admin->setStatus('Admin');
+        $manager->persist($admin);
+        $manager->flush();
     }
 }

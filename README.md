@@ -295,3 +295,16 @@ Pour tester les pages d'erreurs,en mode développement, on va taper une url
 
 `https://localhost:8000/_error/404`  pour tester la page 404
 `https://localhost:8000/_error/403`  pour tester la page 403
+
+
+## Partie 7 Déploiement de l'application sur Heroku
+
+Dans cette partie, nous allons déployer l'application sur Heroku.Pour cela nous allons premièrement créer un utiilisateur admin sur notre application et sécuriser les routes du back-office.
+
+- [x] mettre le .env en mode production
+- [x] Créer le fichier .htaccess `composer require symfony/apache-pack`. Cette commande va créer le fichier .htaccess dans le dossier public qui va permettre de rediriger toutes les requêtes vers le fichier index.php.
+
+- [x] Création d'un compte sur Heroku.
+- [x] Installation de Heroku CLI.
+- [x] Création d'une application sur Heroku.
+

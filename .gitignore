@@ -9,6 +9,9 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+##> Ne pas envoyer le fichier AppFixtures.php qui contient les données de test.
+/src/DataFixtures/AppFixtures.php
+
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache

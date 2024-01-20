@@ -43,6 +43,7 @@ security:
         - { path: ^/account/entreprise, roles: ROLE_PRO } 
         - { path: ^/account/offer, roles: ROLE_PRO }
         - { path: ^/account, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         
     
     role_hierarchy:
