@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2.0",
+        "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "cocur/slugify": "^4.5",
@@ -90,7 +90,7 @@
             "@auto-scripts"
         ],
         "post-update-cmd": [
-            ""
+            "@auto-scripts"
         ],
         "compile":[
             "php bin/console doctrine:migrations:migrate",

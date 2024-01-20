@@ -27,7 +27,7 @@ class AppFixtures extends Fixture
         ];
 
         // Insertion des réglages de l'application(HomeSettings)
-
+        
         $faker = Factory::create();
         for ($i = 0; $i < 5; $i++) {
             // Récupération d'un image unsplash au hasard
@@ -129,7 +129,7 @@ class AppFixtures extends Fixture
         $faker = Factory::create();
         $tabRoles = ['Candidat', 'Entreprise'];
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             // Récupération d'un rôle au hasard
             $randomRole = $faker->randomElement($tabRoles);
             $user = new User();
@@ -177,9 +177,9 @@ class AppFixtures extends Fixture
 
         foreach ($entreprises as $entreprise) {
 
-            $generateGender = ['men', 'women'];
+            $generateGender =['men','women'];
             // Récupération d'une image random de userrandom.com
-            $userRandom = 'https://randomuser.me/api/portraits/' . $faker->randomElement($generateGender) . '/' . $faker->numberBetween(1, 99) . '.jpg';
+            $userRandom = 'https://randomuser.me/api/portraits/'. $faker->randomElement($generateGender) . '/' . $faker->numberBetween(1, 99) . '.jpg';
 
             $newEntrepriseProfil = new EntrepriseProfil();
             $newEntrepriseProfil->setUser($entreprise);
@@ -205,8 +205,8 @@ class AppFixtures extends Fixture
         $contractList = $manager->getRepository(ContractType::class)->findAll();
         $tags = $manager->getRepository(Tag::class)->findAll();
 
-        foreach ($recruteurs as $recruteur) {
-            for ($i = 0; $i < 4; $i++) {
+        
+            for ($i = 0; $i < 20; $i++) {
                 // Récupération d'une entreprise au hasard
                 $recruteurRandom = $faker->randomElement($recruteurs);
                 $newOffer = new Offer();
@@ -226,11 +226,11 @@ class AppFixtures extends Fixture
                 }
                 //$newOffer->addTag($faker->randomElement($tags));
 
-
+                
                 $manager->persist($newOffer);
                 $manager->flush();
             }
-        }
+        
 
         // Créer un admin
         $admin = new User();
