@@ -129,7 +129,7 @@ class AppFixtures extends Fixture
         $faker = Factory::create();
         $tabRoles = ['Candidat', 'Entreprise'];
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             // Récupération d'un rôle au hasard
             $randomRole = $faker->randomElement($tabRoles);
             $user = new User();
@@ -206,7 +206,7 @@ class AppFixtures extends Fixture
         $tags = $manager->getRepository(Tag::class)->findAll();
 
         foreach ($recruteurs as $recruteur) {
-            for ($i = 0; $i < 20; $i++) {
+            for ($i = 0; $i < 4; $i++) {
                 // Récupération d'une entreprise au hasard
                 $recruteurRandom = $faker->randomElement($recruteurs);
                 $newOffer = new Offer();
