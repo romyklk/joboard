@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}- Erreur 404
+{% endblock %}
+
+{% block body %}
+	<div class="row ">
+		<div class="col-md-6 mx-auto m-5 text-center">
+			<h1 class="text-danger">Erreur 500</h1>
+			<p>
+				Un problème est survenu sur le serveur, veuillez réessayer plus tard.
+			</p>
+			<a href="{{ path('app_home') }}" class="btn btn-outline-primary">Retour à l'accueil</a>
+		</div>
+	</div>
+{% endblock %}
