@@ -7,6 +7,7 @@ use Cocur\Slugify\Slugify;
 use App\Form\UserProfilType;
 use App\Entity\PasswordUpdate;
 use App\Form\UpdatePasswordType;
+use App\Repository\ApplicationRepository;
 use App\Services\UploadFilesServices;
 use Symfony\Component\Form\FormError;
 use App\Repository\UserProfilRepository;
@@ -243,5 +244,30 @@ class UserProfilController extends AbstractController
         ]);
     } 
 
+
+    // Cette route va permettre à l'utilisateur connecté de de voir ses candidatures
+    #[Route('/user/profil/{id}/applications', name: 'app_user_profil_applications')]
+    public function applications(int $id, UserProfilRepository $userProfilRepository,ApplicationRepository $applicationRepository): Response
+    {
+        // Si l'utilisateur connecté n'est pas le propriétaire du profil, on le redirige vers son profil
+        // On récupère l'utilisateur connecté
+        $user = $this->getUser();
+
+        $userProfil = $userProfilRepository->find($id);
+        if (!$userProfil || $user->getUserProfil() !== $userProfil) {
+            return $this->redirectToRoute('app_user_profil_show', [
+                'id' => $user->getUserProfil()->getId()
+            ]);
+        }
+
+        // On récupère les candidatures de l'utilisateur connecté
+        $applications = $applicationRepository->findBy(['user' => $user], ['createdAt' => 'DESC']);
+
+      
+
+        return $this->render('user_profil/applications.html.twig', [
+            'applications' => $applications,
+        ]);
+    }
 
 }

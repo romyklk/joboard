@@ -59,8 +59,72 @@
 							</div>
 						</div>
 					</div>
-				{% endblock %}
-			</div>
 
-		</div>
-	{% endblock %}
+					<div class="row">
+						<div class="col-12">
+							<h4 class="text-center">
+								Candidatures reçues pour l'offre
+								{{ offer.title }}
+							</h4>
+						</div>
+						<div class="col-12">
+							{% if offer.applications|length > 0 %}
+								<table class="table table-striped table-hover text-center">
+									<thead>
+										<tr>
+											<th scope="col">Nom</th>
+											<th scope="col">Prénom</th>
+											<th scope="col">Email</th>
+											<th scope="col">Message</th>
+											<th scope="col">Statut</th>
+											<th scope="col">Date</th>
+											<th scope="col">Gérer</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for application in applications %}
+											<tr>
+												<td>{{ application.user.userProfil.firstName }}</td>
+												<td>{{ application.user.userProfil.lastName }}</td>
+												<td>{{ application.user.email }}</td>
+												<td>
+													{% if application.status == 'STATUS_PENDING' %}
+														<span class="badge rounded-pill bg-warning text-dark">En attente</span>
+													{% elseif application.status == 'STATUS_ACCEPTED' %}
+														<span class="badge rounded-pill bg-success">Accepté</span>
+													{% elseif application.status == 'STATUS_REFUSED' %}
+														<span class="badge rounded-pill bg-danger">Refusé</span>
+													{% endif %}
+												</td>
+												<td>
+													{% if application.message|length > 50 %}
+														{{ application.message|slice(0,50) }}...
+													{% else %}
+														{{ application.message }}
+													{% endif %}
+												</td>
+
+												<td>{{ application.createdAt|date('d/m/Y') }}</td>
+
+												{# Affichage du formulaire dans un bouton select pour gérer les candidatures #}
+												<td>
+													<a href="{{path('app_offer_application_status',{'id':application.offer.id,'applicationId': application.id})}}" class="btn btn-info">
+														<i class="bi bi-pen-fill"></i>
+													</a>
+												</td>
+
+											{% endfor %}
+										</tbody>
+									</tbody>
+								</table>
+							{% else %}
+								<div class="alert alert-info">
+									Aucune candidature reçue pour cette offre.
+								</div>
+							{% endif %}
+						</div>
+					{% endblock %}
+				</div>
+
+			</div>
+		{% endblock %}

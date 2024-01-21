@@ -32,7 +32,7 @@
 							nos offres d'emploi
 						</h2>
 						<div class="table-responsive">
-							<table class="table table-striped table-hover">
+							<table class="table table-striped table-hover table-bordered text-center">
 								<thead>
 									<tr>
 										<th>Titre</th>
@@ -40,6 +40,7 @@
 										<th>Salaire</th>
 										<th>Localisation</th>
 										<th>Publiée le</th>
+										<th>Nb de candidatures</th>
 										<th>Gerer</th>
 									</tr>
 								</thead>
@@ -47,7 +48,6 @@
 
 
 									{% for offer in offers %}
-
 										<tr>
 											<td>{{ offer.title }}</td>
 											<td>{{ offer.contractType.name }}</td>
@@ -55,6 +55,7 @@
 												€</td>
 											<td>{{ offer.location}}</td>
 											<td>{{ offer.createdAt|date('d/m/Y') }}</td>
+											<td>{{ offer.applications|length }}</td>
 											{% if offer.isActive %}
 												<td>
 													<a href="{{path('app_offer_show',{'id': offer.id})}}" class="btn btn-primary">

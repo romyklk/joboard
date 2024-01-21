@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Offer;
 use App\Form\OfferType;
-use App\Repository\OfferRepository;
 use Cocur\Slugify\Slugify;
+use App\Entity\ApplicationStatus;
+use App\Form\ApplicationStatusType;
+use App\Repository\OfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ApplicationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +34,6 @@ class OfferController extends AbstractController
 
         // Récupération des offres de l'entreprise connectée
         $offers = $offerRepository->findByEntreprise($company);
-
 
         return $this->render('offer/index.html.twig', [
             'offers' => $offers,
@@ -78,23 +80,6 @@ class OfferController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    /*   // Suppression de toutes les offres
-    #[Route('/offer/delete', name: 'app_offer_delete')]
-    public function deleteAll(EntityManagerInterface $em): Response
-    {
-        $user = $this->getUser();
-        $company = $user->getEntrepriseProfil();
-        $offers = $company->getOffers();
-
-        foreach ($offers as $offer) {
-            $em->remove($offer);
-        }
-        $em->flush();
-
-        $this->addFlash('success', 'Toutes vos offres ont été supprimées avec succès');
-        return $this->redirectToRoute('app_offer');
-    } */
 
 
     #[Route('/offer/{id}/edit', name: 'app_offer_edit')]
@@ -175,7 +160,7 @@ class OfferController extends AbstractController
     }
 
     #[Route('/offer/{id}/show', name: 'app_offer_show')]
-    public function show(int $id, OfferRepository $offerRepository): Response
+    public function show(int $id,Request $request, OfferRepository $offerRepository,ApplicationRepository $applicationRepository): Response
     {
         // Récupération de l'utilisateur connecté
         $user = $this->getUser();
@@ -194,9 +179,71 @@ class OfferController extends AbstractController
             return $this->redirectToRoute('app_offer');
         }
 
+        // Récupération des candidatures de l'offre
+        $applications = $applicationRepository->findBy(['Offer' => $offer]);
+
         return $this->render('offer/show_offer.html.twig', [
             'offer' => $offer,
+            'applications' => $applications,
         ]);
     }
+
+    // Cette route permet de modifier le statut d'une candidature
+    #[Route('/offer/{id}/application/{applicationId}/status', name: 'app_offer_application_status')]
+    public function applicationStatus(int $id, int $applicationId, Request $request, OfferRepository $offerRepository, ApplicationRepository $applicationRepository, EntityManagerInterface $em): Response
+    {
+        // Récupération de l'utilisateur connecté
+        $user = $this->getUser();
+
+        // Récupération de l'entreprise de l'utilisateur connecté
+        $company = $user->getEntrepriseProfil();
+
+        // Si l'utilisateur n'a encore créer de profil entreprise, on le redirige vers la page de création de profil
+        if (!$company) {
+            return $this->redirectToRoute('app_entreprise_profil');
+        }
+
+        // Récupération de l'offre
+        $offer = $offerRepository->find($id);
+
+        // Récupération de la candidature
+        $application = $applicationRepository->find($applicationId);
+
+        // Si l'on ne trouve pas l'offre ou que l'offre ne correspond pas à l'entreprise connectée ou que la candidature ne correspond pas à l'offre, on redirige vers la page des offres
+        if (!$offer || $offer->getEntreprise() !== $company || $application->getOffer() !== $offer) {
+            return $this->redirectToRoute('app_offer');
+        }
+
+        // Création du formulaire
+        $applicationType = new ApplicationStatus();
+        
+        $form = $this->createForm(ApplicationStatusType::class, $applicationType);
+
+        $form->handleRequest($request);
+
+      
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $applicationType = $form->getData();
+            $newStatus = $applicationType->getStatus();
+            $application->setStatus($newStatus);
+            $em->persist($application);
+            $em->flush();
+
+            notyf()
+                ->position('x', 'right')
+                ->position('y', 'top')
+                ->dismissible(true)
+                ->addSuccess('Le statut de la candidature a bien été modifié.');
+        }
+
+
+
+        return $this->render('offer/application_status.html.twig', [
+            'form' => $form->createView(),
+            'offer' => $offer,
+            'application' => $application,
+        ]);
+    }
+    
 
 }

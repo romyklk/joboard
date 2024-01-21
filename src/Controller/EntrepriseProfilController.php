@@ -166,4 +166,5 @@ class EntrepriseProfilController extends AbstractController
 
         return $this->redirectToRoute('app_home');
     }
+
 }

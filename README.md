@@ -271,7 +271,15 @@ Mettre ceci en place sur toutes les entités qui ont besoin de ces fonctionnalit
 - [x] Créer la route `/user/profil/{id}/update-password` qui permet à l'utilisateur connecté de modifier son mot de passe depuis son compte.
 
 
+## Partie 7
 
+- [x] Dans `userProfilController` nous allons créer une route `/user/profil/{id}/applications` qui permet à l'utilisateur de voir ses candidatures.
+
+- [x] Dans la vue qui affiche la liste des candidatures, nous allons ajouter le nombre de candidatures pour chaque offre d'emploi.
+
+- [x] Dans `'/offer/{id}/show` du `OfferController` nous allons ajouter le nombre de candidatures pour chaque offre d'emploi.
+
+- [x] Dans `entrepriseProfilController` nous allons créer une route `/entreprise/profil/{id}/candidatures` qui permet à l'entreprise de voir les candidatures à ses offres d'emploi.
 
 ## Gestions des erreurs PRE PRODUCTION
 
@@ -325,7 +333,7 @@ Dans cette partie, nous allons déployer l'application sur Heroku.Pour cela nous
     $database = `dbs12498200`;
     $user_name = `dbu2779058`;
     $user_pass= `u115202564`;
-    
+
 - Création du fichier .env.local sur le serveur IONOS 
 
 - Connexion en ssh sur le serveur IONOS
@@ -335,7 +343,7 @@ Dans cette partie, nous allons déployer l'application sur Heroku.Pour cela nous
   `mkdir jobboard`
 
 - Zipper le dossier `jobboard` et le télécharger sur le serveur IONOS.
-   `scp sym_job_board.zip u115202564@access993297496.webspace-data.io:/jobboard` puis je tape mon mot de passe Ici je copie le fichier monprojet.zip dans le dossier jobboard sur le serveur IONOS.
+   `scp sym_job_board.zip u115202564@access993297496.webspace-data.io:/joboard` puis je tape mon mot de passe Ici je copie le fichier monprojet.zip dans le dossier jobboard sur le serveur IONOS.
 
 - Dézipper le fichier `sym_job_board.zip` qui se trouve dans le dossier `jobboard` sur le serveur IONOS.
   `cd jobboard` puis
@@ -343,3 +351,6 @@ Dans cette partie, nous allons déployer l'application sur Heroku.Pour cela nous
 
 - Supprimer le fichier `sym_job_board.zip` qui se trouve dans le dossier `jobboard` sur le serveur IONOS.
   `rm sym_job_board.zip`
+
+
+

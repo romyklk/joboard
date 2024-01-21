@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Gestion candidatures
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-2 bg-dark text-white">
+				{% include 'partials/_sidebar.html.twig' %}
+			</div>
+			<div class="col-10 bg-custom-account">
+				{% block content %}
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<h2 class="text-center">Gestion des candidatures</h2>
+							</div>
+						</div>
+					</div>
+					<div class="row mt-4">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title text-center">
+									Candidature pour le poste de
+									{{application.Offer.title}}
+
+								</h5>
+								<p class="card-text">Message de la candidature:<br>
+									{{application.message}}
+								</p>
+
+								<ul class="list-group list-group-flush">
+									<li class="list-group-item">
+										<strong class="text-primary fw-bold">
+											{{application.user.userProfil.firstName}}
+											{{application.user.userProfil.lastName}}
+										</strong>
+									</li>
+									<li class="list-group-item">
+										<strong>Statut:</strong>
+										{% if application.status == 'STATUS_PENDING' %}
+											<span class="badge bg-warning text-dark">En attente</span>
+										{% elseif application.status == 'STATUS_ACCEPTED' %}
+											<span class="badge bg-success">Accepté</span>
+										{% elseif application.status == 'STATUS_REFUSED' %}
+											<span class="badge bg-danger">Refusé</span>
+										{% endif %}
+									</li>
+									<li class="list-group-item">
+										<strong>Date:</strong>
+										{{application.createdAt|ago(locale='fr')}}
+									</li>
+								</ul>
+								<div class="form-group mt-3">
+									{{ form_start(form) }}
+									{{ form_row(form.status) }}
+									{{ form_row(form.submit) }}
+									{{ form_end(form) }}
+								</div>
+								<div class="card-footer border-0 bg-white">
+									<a href="{{ path('app_offer') }}" class="btn btn-primary">Retour</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				{% endblock %}
+			</div>
+
+		</div>
+	{% endblock %}
