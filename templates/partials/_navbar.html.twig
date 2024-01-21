@@ -2,7 +2,7 @@
 
 	<div class="container">
 		<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-			<a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+			<a href="{{path('app_home')}}" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
 				<img src="{{asset('uploads/Logo.png')}}" alt="" width="40" height="32" class="me-2">
 			</a>
 
@@ -24,16 +24,24 @@
 
 			{% if app.user %}
 				<div class="dropdown text-end">
-					<a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-						<img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle border border-white">
+					<a
+						href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+						{# <img src="https://api.dicebear.com/7.x/initials/svg?seed=User" alt="mdo" width="50" height="50" class="rounded-circle border border-white"> #}
+						<img src="{{ 'https://api.dicebear.com/7.x/initials/svg?seed=' ~ app.user.username ~ '&fontSize=20&bold=true&radius=50' }}" alt="mdo" width="50" height="50" class="rounded-circle border border-white">
+
+
 					</a>
 					<ul class="dropdown-menu text-small">
 						<li>
-							<a class="dropdown-item" href="#">Settings</a>
+							<a class="dropdown-item" href="{{path('app_account')}}">Profile</a>
+
 						</li>
-						<li>
-							<a class="dropdown-item" href="#">Profile</a>
-						</li>
+						{% if is_granted('ROLE_ADMIN') %}
+							<li>
+								<a href="{{path('app_admin')}}" class="dropdown-item" href="">Dashboard</a>
+							</li>
+						{% endif %}
+
 						{% if is_granted('ROLE_PRO') %}
 							<li>
 								<a class="dropdown-item" href="">Mes Offres</a>

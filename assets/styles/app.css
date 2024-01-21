@@ -42,7 +42,7 @@ span {
 }
 
 .bg-custom {
-    background-color: #040519;
+    background-color: #040519 !important;
 }
 
 .bg-custom-account {

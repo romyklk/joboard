@@ -308,3 +308,5 @@ Dans cette partie, nous allons déployer l'application sur Heroku.Pour cela nous
 - [x] Installation de Heroku CLI.
 - [x] Création d'une application sur Heroku.
 
+### AFFICHER LES ENTREPRISES
+### FAIRE LE DEPLOIEMENT IONOS ET HEROKU

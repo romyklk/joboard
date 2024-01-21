@@ -7,6 +7,7 @@ use App\Entity\Tag;
 use App\Entity\User;
 use App\Entity\Offer;
 use App\Entity\UserProfil;
+use App\Entity\Application;
 use App\Entity\HomeSetting;
 use App\Entity\ContractType;
 use App\Entity\EntrepriseProfil;
@@ -37,7 +38,6 @@ class AppFixtures extends Fixture
             $homeSettings->setCallToAction($faker->word());
             $homeSettings->setImage($imgUnspash);
             $manager->persist($homeSettings);
-            $manager->flush();
         }
 
 
@@ -129,7 +129,7 @@ class AppFixtures extends Fixture
         $faker = Factory::create();
         $tabRoles = ['Candidat', 'Entreprise'];
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             // Récupération d'un rôle au hasard
             $randomRole = $faker->randomElement($tabRoles);
             $user = new User();
@@ -167,6 +167,7 @@ class AppFixtures extends Fixture
             $newUserProfil->setWebsite($faker->url());
             $newUserProfil->setAvailability($faker->boolean());
             $newUserProfil->setJobSought($faker->jobTitle());
+            $newUserProfil->setPicture('https://api.dicebear.com/7.x/initials/svg?seed=' . $user->getUserName() . '&fontSize=20&bold=true&radius=50');
             $manager->persist($newUserProfil);
             $manager->flush();
         }
@@ -179,12 +180,13 @@ class AppFixtures extends Fixture
 
             $generateGender =['men','women'];
             // Récupération d'une image random de userrandom.com
-            $userRandom = 'https://randomuser.me/api/portraits/'. $faker->randomElement($generateGender) . '/' . $faker->numberBetween(1, 99) . '.jpg';
+           /*  $userRandom = 'https://randomuser.me/api/portraits/'. $faker->randomElement($generateGender) . '/' . $faker->numberBetween(1, 99) . '.jpg'; */
 
             $newEntrepriseProfil = new EntrepriseProfil();
+            $companyName = $faker->company();
             $newEntrepriseProfil->setUser($entreprise);
             $newEntrepriseProfil->setEmail($faker->email());
-            $newEntrepriseProfil->setName($faker->company());
+            $newEntrepriseProfil->setName($companyName);
             $newEntrepriseProfil->setAddress($faker->streetAddress());
             $newEntrepriseProfil->setZipCode($faker->postcode());
             $newEntrepriseProfil->setCity($faker->city());
@@ -194,7 +196,7 @@ class AppFixtures extends Fixture
             $newEntrepriseProfil->setPhoneNumber($faker->phoneNumber());
             $newEntrepriseProfil->setWebsite($faker->url());
             $newEntrepriseProfil->setActivityArea($faker->jobTitle());
-            $newEntrepriseProfil->setLogo($userRandom);
+            $newEntrepriseProfil->setLogo('https://api.dicebear.com/7.x/initials/svg?seed=' .$companyName . '&fontSize=20&bold=true&radius=50');
             $manager->persist($newEntrepriseProfil);
             $manager->flush();
         }
@@ -206,7 +208,7 @@ class AppFixtures extends Fixture
         $tags = $manager->getRepository(Tag::class)->findAll();
 
         
-            for ($i = 0; $i < 20; $i++) {
+            for ($i = 0; $i < 100; $i++) {
                 // Récupération d'une entreprise au hasard
                 $recruteurRandom = $faker->randomElement($recruteurs);
                 $newOffer = new Offer();
@@ -230,6 +232,26 @@ class AppFixtures extends Fixture
                 $manager->persist($newOffer);
                 $manager->flush();
             }
+
+
+        // creation des candidatures pour 20 candidats aléatoire
+
+        $candidats = $manager->getRepository(User::class)->findByStatus('Candidat');
+        $offers = $manager->getRepository(Offer::class)->findAll();
+
+        for ($i = 0; $i < 100; $i++) {
+            // Récupération d'un candidat au hasard
+            $candidatRandom = $faker->randomElement($candidats);
+            // Récupération d'une offre au hasard
+            $offerRandom = $faker->randomElement($offers);
+            $newApplication = new Application();
+            $newApplication->setUser($candidatRandom);
+            $newApplication->setOffer($offerRandom);
+            $newApplication->setMessage($faker->paragraph(mt_rand(1, 5)));
+            $newApplication->setStatus($faker->randomElement(['STATUS_PENDING', 'STATUS_ACCEPTED', 'STATUS_REFUSED']));
+            $newApplication->setCreatedAt(new \DateTimeImmutable());
+            $manager->persist($newApplication);
+        }
         
 
         // Créer un admin

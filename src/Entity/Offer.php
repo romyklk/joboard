@@ -283,4 +283,9 @@ public function isActive(): ?bool
     }
 
 
+    public function __toString(): string
+    {
+        return $this->title;
+    }
+
 }
