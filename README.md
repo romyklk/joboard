@@ -279,7 +279,9 @@ Mettre ceci en place sur toutes les entités qui ont besoin de ces fonctionnalit
 
 - [x] Dans `'/offer/{id}/show` du `OfferController` nous allons ajouter le nombre de candidatures pour chaque offre d'emploi.
 
-- [x] Dans `entrepriseProfilController` nous allons créer une route `/entreprise/profil/{id}/candidatures` qui permet à l'entreprise de voir les candidatures à ses offres d'emploi.
+- [x] Dans la vue qui affiche une offre dans le profil de l'entreprise, nous allons ajouter dans un tableau html qui va afficher les candidatures à cette offre d'emploi(avec le nom du candidat, son email, status,la date , une partie du message, et un bouton qui va permettre de gérer la candidature).
+  
+- [x] Dans `OfferController` nous allons créer une route `//offer/{id}/application/{applicationId}/status` qui va permettre de voir le détail d'une candidature et de changer son status.
 
 ## Gestions des erreurs PRE PRODUCTION
 
