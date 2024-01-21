@@ -297,7 +297,13 @@ Pour tester les pages d'erreurs,en mode développement, on va taper une url
 `https://localhost:8000/_error/403`  pour tester la page 403
 
 
-## Partie 7 Déploiement de l'application sur Heroku
+## GESTION DES ASSETS AVEC ASSETMAPPER
+Avant la mise en prod , nous allons gérer les assets avec assetmapper.
+AssetMapper est un outil qui permet de gérer les assets de votre site web. Il permet de concaténer et de minifier les fichiers CSS et javascript. Pour cela nous allons taper la commande suivante: 
+    `php bin/console asset-map:compile`
+
+
+## Partie 7 Déploiement de l'application
 
 Dans cette partie, nous allons déployer l'application sur Heroku.Pour cela nous allons premièrement créer un utiilisateur admin sur notre application et sécuriser les routes du back-office.
 
@@ -308,5 +314,32 @@ Dans cette partie, nous allons déployer l'application sur Heroku.Pour cela nous
 - [x] Installation de Heroku CLI.
 - [x] Création d'une application sur Heroku.
 
-### AFFICHER LES ENTREPRISES
-### FAIRE LE DEPLOIEMENT IONOS ET HEROKU
+### AFFICHER LES ENTREPRISES A FINIR
+
+
+
+### FAIRE LE DEPLOIEMENT IONOS
+
+- Création de la base de données sur IONOS et récupération des informations de connexion.
+    $host_name = `db5015045444.hosting-data.io`;
+    $database = `dbs12498200`;
+    $user_name = `dbu2779058`;
+    $user_pass= `u115202564`;
+    
+- Création du fichier .env.local sur le serveur IONOS 
+
+- Connexion en ssh sur le serveur IONOS
+ `ssh u115202564@access993297496.webspace-data.io` puis je tape mon mot de passe
+
+- Création du dossier `jobboard` dans le dossier `www` qui contient les fichiers du site web.
+  `mkdir jobboard`
+
+- Zipper le dossier `jobboard` et le télécharger sur le serveur IONOS.
+   `scp sym_job_board.zip u115202564@access993297496.webspace-data.io:/jobboard` puis je tape mon mot de passe Ici je copie le fichier monprojet.zip dans le dossier jobboard sur le serveur IONOS.
+
+- Dézipper le fichier `sym_job_board.zip` qui se trouve dans le dossier `jobboard` sur le serveur IONOS.
+  `cd jobboard` puis
+  `unzip sym_job_board.zip`
+
+- Supprimer le fichier `sym_job_board.zip` qui se trouve dans le dossier `jobboard` sur le serveur IONOS.
+  `rm sym_job_board.zip`

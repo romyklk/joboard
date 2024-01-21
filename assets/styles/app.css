@@ -26,9 +26,14 @@ span {
 }
 
 .setting-img {
-    height: 500px;
     object-fit: cover;
     object-position: center center;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    object-position: center center;
+    height: 400px;
 }
 
 .account-icone {
@@ -43,6 +48,10 @@ span {
 
 .bg-custom {
     background-color: #040519 !important;
+}
+
+header.py-3.border-bottom.bg-custom {
+    background-color: #040519;
 }
 
 .bg-custom-account {
