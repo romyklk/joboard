@@ -356,8 +356,10 @@ Dans cette partie, nous allons déployer l'application sur Heroku.Pour cela nous
 - Installation de Heroku CLI.
 - Se connecter à Heroku CLI avec la commande `heroku login`
 - Création d'une application sur Heroku avec la commande `heroku create`
+- faire `git remote -v` pour vérifier que le remote heroku a été créé.
+- Renommer le remote heroku avec la commande `heroku rename sym-job-board`
 - Création d'un fichier Procfile à la racine du projet avec le contenu suivant:
-    `web: heroku-php-apache2 public/`
+    `echo 'web: heroku-php-apache2 public/' > Procfile`
 
 ### TODO 
 
