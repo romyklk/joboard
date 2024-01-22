@@ -324,9 +324,6 @@ Dans cette partie, nous allons déployer l'application sur Heroku.Pour cela nous
 - [x] Installation de Heroku CLI.
 - [x] Création d'une application sur Heroku.
 
-### AFFICHER LES ENTREPRISES A FINIR
-
-
 
 ### FAIRE LE DEPLOIEMENT IONOS
 
@@ -354,5 +351,24 @@ Dans cette partie, nous allons déployer l'application sur Heroku.Pour cela nous
 - Supprimer le fichier `sym_job_board.zip` qui se trouve dans le dossier `jobboard` sur le serveur IONOS.
   `rm sym_job_board.zip`
 
+## HEROKU V2
 
+- Installation de Heroku CLI.
+- Se connecter à Heroku CLI avec la commande `heroku login`
+- Création d'une application sur Heroku avec la commande `heroku create`
+- Création d'un fichier Procfile à la racine du projet avec le contenu suivant:
+    `web: heroku-php-apache2 public/`
 
+### TODO 
+
+- AFFICHER LES ENTREPRISES 
+- LES FILTRES
+- LES PAGES ABOUT ET CONTACT
+- CREATIONS DU SERVICE MAIL AVEC MAILJET
+- ENVOI DE MAIL DE CONFIRMATION DE CREATION DE COMPTE
+- ENVOI DE MAIL DE CONFIRMATION DE CANIDATURE A UNE OFFRE D'EMPLOI
+- ENVOI DE CONFIRMATION DE CHANGEMENT DE STATUS DE CANDIDATURE A UNE OFFRE D'EMPLOI
+- MOT DE PASSE OUBLIE
+- SYSTEME DE LIKE POUR LES OFFRES D'EMPLOI(WISHLIST)
+- SYSTEME DE NOTE POUR LES ENTREPRISES ET LES OFFRES D'EMPLOI
+- SYSTEME DE COMMENTAIRE POUR LES ENTREPRISES ET LES OFFRES D'EMPLOI
